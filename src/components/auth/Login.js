@@ -1,33 +1,47 @@
 import React, { useState } from 'react';
-import AuthService from '../providers/auth-service';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
-import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import UiLink from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import Error from '../error/Error';
-
+import AuthService from '../providers/auth-service';
 
 const useStyles = makeStyles(theme => ({
-  // container: {
-  //   display: 'flex',
-  //   flexWrap: 'wrap',
-  //   flexDirection: 'column',
-  // },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+  '@global': {
+    body: {
+      backgroundColor: theme.palette.common.white,
+    },
   },
-  menu: {
-    width: 200,
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
-  card: {
-    maxWidth: 500,
-    margin: '0 auto',
-    marginTop: 100,
-    padding: 30
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
   },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  avatar: {
+    margin: theme.spacing(1, 1, 3),
+  },
+  avatarImg: {
+    objectFit: 'cover',
+    width: 140,
+    height: 140,
+    borderRadius: 300,
+    overflow: 'hidden',
+  }
 }));
 
 const Login = (props) => {
@@ -67,50 +81,68 @@ const Login = (props) => {
   }
 
   return(
-    <Container maxWidth="sm">
-      <Card className={classes.card}>
-        <form onSubmit={handleFormSubmit} className={classes.container} noValidate autoComplete="off">
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <picture className={classes.avatar}>
+          <img
+            className={classes.avatarImg}
+            src="./assets/pet-random-1.gif"
+            alt="Pet fofinho"
+          />
+        </picture>
+        <Typography component="h1" variant="h5">
+          Entrar
+        </Typography>
+        <form onSubmit={handleFormSubmit} className={classes.container} noValidate>
           <div>{renderError()}</div>
-          <TextField
-          id="username"
-          name="username"
-          label="Email"
-          variant="outlined"
-          fullWidth
-          required
-          className={classes.textField}
-          helperText="Digite seu e-mail aqui"
-          // margin="normal"
-          style={{ margin: 8 }}
-          onChange={handleChange('username')}
-          />
 
           <TextField
-          id="standard-password-input"
-          label="Password"
-          variant="outlined"
-          fullWidth
-          required
-          className={classes.textField}
-          type="password"
-          autoComplete="current-password"
-          // margin="normal"
-          style={{ margin: 8 }}
-          onChange={handleChange('password')}
+            id="username"
+            name="username"
+            label="Email"
+            variant="outlined"
+            fullWidth
+            required
+            className={classes.textField}
+            margin="normal"
+            autoComplete="email"
+            autoFocus
+            onChange={handleChange('username')}
           />
-
+          <TextField
+            id="standard-password-input"
+            name="password"
+            label="Senha"
+            type="password"
+            variant="outlined"
+            fullWidth
+            required
+            className={classes.textField}
+            autoComplete="current-password"
+            margin="normal"
+            onChange={handleChange('password')}
+          />
           <Button
-          variant="outlined" 
-          color="primary"
-          type="submit">
-          Login
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Entrar
           </Button>
-          
+          <Grid container>
+            <Grid item xs>
+            </Grid>
+            <Grid item>
+              <Link to={"/signup"}>
+                Ainda não tem conta? Cadastre-se
+              </Link>
+            </Grid>
+          </Grid>
         </form>
-        <p>If you don't have an account yet, you can create your account
-            <Link to={"/signup"}> Here</Link>
-        </p>
-      </Card>
+      </div>
     </Container>
   )
 }
