@@ -1,57 +1,107 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import AuthService from '../providers/auth-service';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from "@material-ui/core/Button";
+import Card from '@material-ui/core/Card';
+import Container from '@material-ui/core/Container';
+import Error from '../error/Error'
 
 
-class Signup extends Component {
-  constructor(props){
-    super(props);
-    this.state = { username: '', password: '' };
-    this.service = new AuthService();
+const useStyles = makeStyles(theme => ({
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+  menu: {
+    width: 200,
+  },
+  card: {
+    maxWidth: 500,
+    margin: '0 auto',
+    marginTop: 100,
+    padding: 30
+  },
+}));
+
+
+const Signup = (props) => {
+  const service = new AuthService();
+  const classes = useStyles();
+  const [values, setValues] = useState({
+    username: '',
+    password: '',
+  });
+
+  const renderError = () => {
+    if( values.hasError === true ) {
+      return (<Error></Error>)
+    }
   }
 
-  handleFormSubmit = (event) => {
-    event.preventDefault();
-    const username = this.state.username;
-    const password = this.state.password;
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
   
-    this.service.signup(username, password)
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const user = values.username;
+    const pass = values.password;
+    console.log(`username: ${user}, password: ${pass}`);
+    service.signup(user, pass)
     .then( response => {
-        this.setState({
-            username: "", 
-            password: "",
-        });
-        this.props.getUser(response);
+        setValues({ username: '', password: '' });
+        props.getUser(response)
+        window.location.href = '/';
     })
     .catch( error => console.log(error) )
   }
-  
-  handleChange = (event) => {  
-    const {name, value} = event.target;
-    this.setState({[name]: value});
-  }
-      
-  
-  render(){
-    return(
-      <div>
-        <form onSubmit={this.handleFormSubmit}>
-          <label>Username:</label>
-          <input type="text" name="username" value={this.state.username} onChange={ e => this.handleChange(e)}/>
+
+  return(
+    <Container maxWidth="sm">
+      <Card className={classes.card}>
+        <form onSubmit={handleFormSubmit} className={classes.container} noValidate autoComplete="off">
+        <div>{renderError()}</div>
+          <TextField
+          id="username"
+          name="username"
+          label="Email"
+          variant="outlined"
+          fullWidth
+          required
+          className={classes.textField}
+          style={{ margin: 8 }}
+          onChange={handleChange('username')}
+          />
+
+          <TextField
+          id="standard-password-input"
+          label="Senha"
+          variant="outlined"
+          fullWidth
+          required
+          className={classes.textField}
+          type="password"
+          autoComplete="current-password"
+          style={{ margin: 8 }}
+          onChange={handleChange('password')}
+          />
+
+          <Button
+          variant="outlined" 
+          color="primary"
+          type="submit">
+          Criar conta
+          </Button>
           
-          <label>Password:</label>
-          <input type="password" name="password" value={this.state.password} onChange={ e => this.handleChange(e)} />
-          
-          <input type="submit" value="Signup" />
         </form>
-  
-        <p>Already have account? 
-            <Link to={"/"}> Login</Link>
+        <p>Já possui conta?
+            <Link to={"/signup"}> Entre aqui</Link>
         </p>
-  
-      </div>
-    )
-  }
+      </Card>
+    </Container>
+  )
 }
 
 export default Signup;

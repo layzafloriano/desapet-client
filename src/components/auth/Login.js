@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import AuthService from '../providers/auth-service';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-// import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
 import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
-// import { flexbox } from '@material-ui/system';
+import Error from '../error/Error';
+
 
 const useStyles = makeStyles(theme => ({
   // container: {
@@ -30,12 +30,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
- const Login = (props) => {
+const Login = (props) => {
   const service = new AuthService();
   const classes = useStyles();
   const [values, setValues] = useState({
     username: '',
     password: '',
+    hasError: false,
   });
 
   const handleChange = name => event => {
@@ -46,24 +47,35 @@ const useStyles = makeStyles(theme => ({
     event.preventDefault();
     const user = values.username;
     const pass = values.password;
-    console.log(`username: ${user}, password: ${pass}`);
+    console.log(`Request é user: ${user} pass: ${pass}`);
+    console.log(`state: user: ${values.username} pass: ${values.username} `)
     service.login(user, pass)
     .then( response => {
-        this.setState({ username: '', password: '' });
-        this.props.getUser(response)
+        props.getUser(response);
+        window.location.href = '/';
     })
-    .catch( error => console.log(error) )
+    .catch( error => {
+      console.log(error);
+      setValues({ ...values, hasError: true });
+     })
+  }
+
+  const renderError = () => {
+    if( values.hasError === true ) {
+      return (<Error></Error>)
+    }
   }
 
   return(
     <Container maxWidth="sm">
       <Card className={classes.card}>
         <form onSubmit={handleFormSubmit} className={classes.container} noValidate autoComplete="off">
-
+          <div>{renderError()}</div>
           <TextField
           id="username"
           name="username"
           label="Email"
+          variant="outlined"
           fullWidth
           required
           className={classes.textField}
@@ -76,6 +88,7 @@ const useStyles = makeStyles(theme => ({
           <TextField
           id="standard-password-input"
           label="Password"
+          variant="outlined"
           fullWidth
           required
           className={classes.textField}

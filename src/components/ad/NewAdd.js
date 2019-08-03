@@ -1,130 +1,131 @@
 import React from 'react';
-// import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
+import AdService from '../providers/ad-service'
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
-  },
+  // container: {
+  //   display: 'flex',
+  //   flexWrap: 'wrap',
+  // },
+  // textField: {
+  //   marginLeft: theme.spacing(1),
+  //   marginRight: theme.spacing(1),
+  //   width: 200,
+  // },
+  // dense: {
+  //   marginTop: 19,
+  // },
+  // menu: {
+  //   width: 200,
+  // },
 }));
 
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
-
-export default function TextFields() {
+export default function NewAdd(props) {
+  const service = new AdService();
   const classes = useStyles();
   const [values, setValues] = React.useState({
-    name: 'Cat in the Hat',
-    age: '',
-    multiline: 'Controlled',
-    currency: 'EUR',
+    description: '',
+    title: '',
+    imageFile: '',
+    state: '',
+    city: '',
+    price: '',
+    // status: '',
   });
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
 
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const title = values.title;
+    const description = values.description;
+    const imageFile = values.imageFile;
+    const price = values.price;
+    const state = values.state;
+    const city = values.city;
+
+    const data = new FormData() 
+    data.append('photo', values.imageFile)
+
+    service.addAd(title, description, price, state, city, imageFile)
+    .catch( error => console.log(error) )
+  }
+
+  const onFileChangeHandler=event=>{
+    console.log(event.target.files[0]);
+    setValues({...values, imageFile: event.target.files[0] })
+  }
+
+
   return (
-    <form className={classes.container} noValidate autoComplete="off">
+    <form onSubmit={handleFormSubmit} encType="multipart/form-data" className={classes.container} noValidate autoComplete="off">
       <TextField
+          id="title"
+          name="title"
+          label="Título"
+          variant="outlined"
+          fullWidth
+          required
+          className={classes.textField}
+          // margin="normal"
+          style={{ margin: 8 }}
+          onChange={handleChange('title')}
+          />
+      <TextField
+        id="description"
+        label="Descrição"
+        variant="outlined"
+        fullWidth
         required
-        id="standard-name"
-        label="Name"
-        className={classes.textField}
-        value={values.name}
-        onChange={handleChange('name')}
-        margin="normal"
-      />
-      <TextField
-        error
-        id="standard-error"
-        label="Error"
-        defaultValue="Hello World"
-        className={classes.textField}
-        margin="normal"
-      />
-      <TextField
-        id="standard-password-input"
-        label="Password"
-        className={classes.textField}
-        type="password"
-        autoComplete="current-password"
-        margin="normal"
-      />
-      <TextField
-        id="standard-multiline-static"
-        label="Multiline"
         multiline
-        rows="4"
-        defaultValue="Default Value"
+        rows="10"
         className={classes.textField}
         margin="normal"
+        style={{ margin: 8 }}
+        onChange={handleChange('description')}
       />
+      
       <TextField
-        id="standard-helperText"
-        label="Helper text"
-        defaultValue="Default Value"
-        className={classes.textField}
-        helperText="Some important text"
-        margin="normal"
-      />
-      <TextField
-        id="standard-with-placeholder"
-        label="With placeholder"
-        placeholder="Placeholder"
-        className={classes.textField}
-        margin="normal"
-      />
-      <TextField
-        id="standard-number"
-        label="Number"
-        value={values.age}
-        onChange={handleChange('age')}
+        id="price"
+        label="Valor do produto - R$"
+        variant="outlined"
+        // value={values.age}
+        onChange={handleChange('price')}
         type="number"
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
         }}
         margin="normal"
+        style={{ margin: 8 }}
       />
+
       <TextField
-        id="standard-search"
-        label="Search field"
-        type="search"
+        id="photo"
+        name="photo"
+        label="Selecione uma imagem"
+        variant="outlined"
+        onChange={(e)=> onFileChangeHandler(e)}
+        type="file"
         className={classes.textField}
+        InputLabelProps={{
+          shrink: true,
+        }}
         margin="normal"
-      />
-      <TextField
+        style={{ margin: 8 }}
+        />
+       <Button
+          variant="outlined" 
+          color="primary"
+          type="submit">
+          Login
+          </Button>
+      {/* <TextField
         id="standard-select-currency"
         select
         label="Select"
@@ -144,19 +145,7 @@ export default function TextFields() {
             {option.label}
           </MenuItem>
         ))}
-      </TextField>
-      <TextField
-        id="standard-full-width"
-        label="Label"
-        style={{ margin: 8 }}
-        placeholder="Placeholder"
-        helperText="Full width!"
-        fullWidth
-        margin="normal"
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
+      </TextField> */}
     </form>
   );
 }
