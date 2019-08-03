@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import AdService from '../providers/ad-service'
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 export default function NewAdd(props) {
   const service = new AdService();
   const classes = useStyles();
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     description: '',
     title: '',
     imageFile: '',
@@ -36,6 +36,10 @@ export default function NewAdd(props) {
     city: '',
     // status: '',
   });
+
+  const [listState, setListState] = useState([]);
+
+  const [listCity, setListCity] = useState([]);
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -65,17 +69,29 @@ export default function NewAdd(props) {
   }
 
   // get state list, when page load
-
-  const getState = () => {
+  function getListState() {
     service.getListState()
-    .then(res => {
-      setValues({...values, state: res })
-      console.log(values);
-    })
-    .catch(error => console.log(error));
+      .then(res => {
+        setListState(res);
+      })
+      .catch(error => console.log(error));
   }
 
-  // getState();
+  useEffect(getListState, []);
+
+  function getListCity() {
+    if (!values.state) return;
+    setListCity([]);
+    service.getListCity(values.state)
+      .then(res => {
+        setListCity(res);
+        console.log('tá chamando');
+      })
+      .catch(error => console.log(error));
+  }
+
+  useEffect(getListCity, [values.state]);
+
   
   return (
     <form onSubmit={handleFormSubmit} encType="multipart/form-data" className={classes.container} noValidate autoComplete="off">
@@ -87,7 +103,6 @@ export default function NewAdd(props) {
           fullWidth
           required
           className={classes.textField}
-          // margin="normal"
           style={{ margin: 8 }}
           onChange={handleChange('title')}
           />
@@ -133,34 +148,44 @@ export default function NewAdd(props) {
         }}
         margin="normal"
         style={{ margin: 8 }}
-        />
-       <Button
+      />
+      <Button
           variant="outlined" 
           color="primary"
           type="submit">
           Login
-          </Button>
-      {/* <TextField
-        id="standard-select-currency"
+      </Button>
+      <TextField
+        id="states"
         select
-        label="Select"
+        label="Selecione um estado"
         className={classes.textField}
-        value={values.currency}
-        onChange={handleChange('currency')}
-        SelectProps={{
-          MenuProps: {
-            className: classes.menu,
-          },
-        }}
-        helperText="Please select your currency"
+        value={values.state}
+        onChange={handleChange('state')}
         margin="normal"
       >
-        {currencies.map(option => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
+        {listState.map(option => (
+          <MenuItem key={option.stateID} value={option.stateID}>
+            {option.sigla}
           </MenuItem>
         ))}
-      </TextField> */}
+      </TextField>
+
+      {values.state  && listCity.length && <TextField
+        id="cities"
+        select
+        label="Selecione uma cidade"
+        className={classes.textField}
+        value={values.city}
+        onChange={handleChange('city')}
+        margin="normal"
+      >
+        {listCity.map(option => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>}
     </form>
   );
 }

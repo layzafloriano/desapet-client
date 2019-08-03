@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-class AuthService {
+class AdService {
   constructor() {
     let service = axios.create({
       baseURL: 'http://localhost:8000/api',
@@ -9,34 +9,34 @@ class AuthService {
     this.service = service;
   }
 
-  // username, password, campus, course
-  signup = (username, password) => {
-    return this.service.post('/signup', {username, password})
-    .then(response => response.data)
-  }
-  loggedin = () => {
-    return this.service.get('/loggedin')
-    .then(response => response.data)
-  }
-  login = (username, password) => {
-    return this.service.post('/login', {username, password})
-    .then(response => response.data)
-  }
-  logout = () => {
-    return this.service.get('/logout', {})
-    .then(response => response.data)
+  addAd = (title, description, price, state, city, file) => {
+    const formData = new FormData();
+    formData.append('photo', file);
+    formData.set('originalname', file.name);
+    formData.set('description', description);
+    formData.set('title', title);
+    formData.set('state', state);
+    formData.set('city', city);
+    formData.set('price', price);
+    
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    };
+    return this.service.post('/add-ad', formData, config)
+    .then(response => response.data);
   }
 
-  // //upload e edit
-  // upload = (image) => {
-  //   return this.service.post('/upload', {image})
-  //   .then(response => response.data)
-  // }
+  getListState = () => {
+    return this.service.get('/add-ad-state')
+    .then(response => response.data);
+  }
 
-  edit = (username) => {
-    return this.service.put('/edit', { username})
-    .then(response => response.data)
+  getListCity = (stateID) => {
+    return this.service.get(`/add-ad-city/${stateID}`)
+    .then(response => response.data);
   }
 }
 
-export default AuthService;
+export default AdService;
