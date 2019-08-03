@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import AdService from '../providers/ad-service'
 import MenuItem from '@material-ui/core/MenuItem';
@@ -30,9 +31,9 @@ export default function NewAdd(props) {
     description: '',
     title: '',
     imageFile: '',
+    price: '',
     state: '',
     city: '',
-    price: '',
     // status: '',
   });
 
@@ -53,15 +54,29 @@ export default function NewAdd(props) {
     data.append('photo', values.imageFile)
 
     service.addAd(title, description, price, state, city, imageFile)
+    .then(res => {
+      return (<Redirect push to ='/' />);
+    })
     .catch( error => console.log(error) )
   }
 
   const onFileChangeHandler=event=>{
-    console.log(event.target.files[0]);
     setValues({...values, imageFile: event.target.files[0] })
   }
 
+  // get state list, when page load
 
+  const getState = () => {
+    service.getListState()
+    .then(res => {
+      setValues({...values, state: res })
+      console.log(values);
+    })
+    .catch(error => console.log(error));
+  }
+
+  // getState();
+  
   return (
     <form onSubmit={handleFormSubmit} encType="multipart/form-data" className={classes.container} noValidate autoComplete="off">
       <TextField
