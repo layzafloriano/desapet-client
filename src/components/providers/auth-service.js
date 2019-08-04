@@ -21,6 +21,7 @@ class AuthService {
   login = (username, password) => {
     return this.service.post('/login', {username, password})
     .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data))
   }
   logout = () => {
     return this.service.get('/logout', {})

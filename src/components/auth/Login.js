@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    margin: theme.spacing(1, 0 , 3),
   },
   submit: {
     width: '100%',
@@ -45,60 +45,58 @@ const useStyles = makeStyles(theme => ({
 const Login = (props) => {
   const service = new AuthService();
   const classes = useStyles();
-  const [values, setValues] = useState({
+  const [loginData, setLoginData] = useState({
     username: '',
     password: '',
-    hasError: false,
   });
+  const [error, setError] = useState({
+    hasError: false,
+    message: '',
+  });
+  const [iconRandom] = useState(generateIconRandom());
 
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-  
-  const handleFormSubmit = (event) => {
+  function handleChange(name) {
+    return event => setLoginData({ ...loginData, [name]: event.target.value });
+  }
+
+  function handleFormSubmit(event) {
     event.preventDefault();
-    const user = values.username;
-    const pass = values.password;
-    console.log(`Request é user: ${user} pass: ${pass}`);
-    console.log(`state: user: ${values.username} pass: ${values.username} `)
+    const user = loginData.username;
+    const pass = loginData.password;
     service.login(user, pass)
-    .then( response => {
+      .then(response => {
         props.getUser(response);
         window.location.href = '/';
-    })
-    .catch( error => {
-      console.log(error);
-      setValues({ ...values, hasError: true });
-     })
+      })
+      .catch(err => {
+        setError({ ...error, hasError: true, message: err.message });
+      })
   }
 
-  const renderError = () => {
-    if( values.hasError === true ) {
-      return (<Error></Error>)
-    }
-  }
-
-  function iconRandom() {
+  function generateIconRandom() {
     return `./assets/pet-random-${Math.floor(Math.random() * 5)}.gif`;
+  }
+
+  function closeError() {
+    setError({ ...error, hasError: false, message: '' });
   }
 
   return(
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <picture className={classes.avatar}>
+        {iconRandom && <picture className={classes.avatar}>
           <img
             className={classes.avatarImg}
-            src={iconRandom()}
+            src={iconRandom}
             alt="Pet fofinho"
           />
-        </picture>
+        </picture>}
+
         <Typography component="h1" variant="h5">
           Entrar
         </Typography>
         <form onSubmit={handleFormSubmit} className={classes.form}>
-          <div>{renderError()}</div>
-
           <TextField
             id="username"
             name="username"
@@ -125,6 +123,14 @@ const Login = (props) => {
             margin="normal"
             onChange={handleChange('password')}
           />
+
+          {error.hasError && 
+            <Error
+              message={error.message}
+              onClose={closeError}>
+            </Error>
+          }
+
           <Fab
             type="submit"
             size="large"
@@ -134,6 +140,7 @@ const Login = (props) => {
           >
             Entrar
           </Fab>
+
           <Grid container>
             <Grid item xs>
             </Grid>
