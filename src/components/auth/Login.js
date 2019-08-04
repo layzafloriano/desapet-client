@@ -96,7 +96,7 @@ const Login = (props) => {
         <Typography component="h1" variant="h5">
           Entrar
         </Typography>
-        <form onSubmit={handleFormSubmit} className={classes.form} noValidate>
+        <form onSubmit={handleFormSubmit} className={classes.form}>
           <div>{renderError()}</div>
 
           <TextField

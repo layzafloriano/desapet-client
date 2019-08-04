@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import AdService from '../providers/ad-service'
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Fab from "@material-ui/core/Fab";
 import Container from '@material-ui/core/Container';
@@ -103,7 +102,6 @@ export default function NewAdd(props) {
     service.getListCity(values.state)
       .then(res => {
         setListCity(res);
-        console.log('tá chamando');
       })
       .catch(error => console.log(error));
   }
@@ -132,8 +130,7 @@ export default function NewAdd(props) {
         <form
           onSubmit={handleFormSubmit}
           encType="multipart/form-data"
-          className={classes.form}
-          noValidate>
+          className={classes.form}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -178,6 +175,7 @@ export default function NewAdd(props) {
                   shrink: true,
                 }}
                 margin="normal"
+                required
               />
             </Grid>
 
@@ -194,7 +192,11 @@ export default function NewAdd(props) {
                   shrink: true,
                 }}
                 margin="normal"
+                required
                 fullWidth
+                SelectProps={{
+                  native: true
+                }}
               />
             </Grid>
 
@@ -207,13 +209,18 @@ export default function NewAdd(props) {
                 value={values.state}
                 onChange={handleChange('state')}
                 margin="normal"
+                required
                 variant="outlined"
                 fullWidth
+                SelectProps={{
+                  native: true
+                }}
               >
+                <option />
                 {listState.map(option => (
-                  <MenuItem key={option.stateID} value={option.stateID}>
+                  <option key={option.stateID} value={option.stateID}>
                     {option.sigla}
-                  </MenuItem>
+                  </option>
                 ))}
               </TextField>
             </Grid>
@@ -228,19 +235,24 @@ export default function NewAdd(props) {
                   value={values.city}
                   onChange={handleChange('city')}
                   margin="normal"
+                  required
                   variant="outlined"
                   fullWidth
+                  SelectProps={{
+                    native: true
+                  }}
                 >
+                  <option />
                   {listCity.map(option => (
-                    <MenuItem key={option} value={option}>
+                    <option key={option} value={option}>
                       {option}
-                    </MenuItem>
+                    </option>
                   ))}
                 </TextField>
               }
             </Grid>
 
-            <Grid item xs={12} alignContent="center">
+            <Grid item xs={12}>
               <Fab
                 type="submit"
                 size="large"
