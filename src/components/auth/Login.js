@@ -77,6 +77,10 @@ const Login = (props) => {
     }
   }
 
+  function iconRandom() {
+    return `./assets/pet-random-${Math.floor(Math.random() * 5)}.gif`;
+  }
+
   return(
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -84,7 +88,7 @@ const Login = (props) => {
         <picture className={classes.avatar}>
           <img
             className={classes.avatarImg}
-            src="./assets/pet-random-1.gif"
+            src={iconRandom()}
             alt="Pet fofinho"
           />
         </picture>
