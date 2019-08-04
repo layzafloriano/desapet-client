@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AuthService from '../providers/auth-service';
+import AuthService from '../../providers/auth-service';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';

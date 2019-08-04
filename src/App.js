@@ -6,7 +6,7 @@ import Login from './components/auth/Login';
 import NewAdd from './components/ad/NewAdd';
 import Navbar from './components/navbar/Navbar'
 import ProtectedRoute from './components/auth/protected-route';
-import AuthService from './components/providers/auth-service';
+import AuthService from './providers/auth-service';
 
 class App extends Component {
 

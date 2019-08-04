@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
-import AuthService from '../providers/auth-service';
+import AuthService from '../../providers/auth-service';
 import { Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';

@@ -8,7 +8,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Error from '../error/Error';
-import AuthService from '../providers/auth-service';
+import AuthService from '../../providers/auth-service';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
