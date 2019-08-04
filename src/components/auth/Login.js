@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -27,7 +27,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    width: '100%',
+    margin: theme.spacing(3, 0, 4),
   },
   avatar: {
     margin: theme.spacing(1, 1, 3),
@@ -95,7 +96,7 @@ const Login = (props) => {
         <Typography component="h1" variant="h5">
           Entrar
         </Typography>
-        <form onSubmit={handleFormSubmit} className={classes.container} noValidate>
+        <form onSubmit={handleFormSubmit} className={classes.form} noValidate>
           <div>{renderError()}</div>
 
           <TextField
@@ -124,15 +125,15 @@ const Login = (props) => {
             margin="normal"
             onChange={handleChange('password')}
           />
-          <Button
+          <Fab
             type="submit"
-            fullWidth
-            variant="contained"
+            size="large"
+            variant="extended"
             color="primary"
             className={classes.submit}
           >
             Entrar
-          </Button>
+          </Fab>
           <Grid container>
             <Grid item xs>
             </Grid>
