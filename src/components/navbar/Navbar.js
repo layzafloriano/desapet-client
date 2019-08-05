@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Search from '../search/Search'
 import clsx from 'clsx';
 import AuthService from '../../providers/auth-service';
 import { Divider } from '@material-ui/core';
@@ -85,7 +86,7 @@ const useStyles = makeStyles(theme => ({
   link: {
     color: '#000000 !important',
     textDecoration: 'none !important',
-  }
+  },
 }));
 
 export default function Navbar(props) {
@@ -227,6 +228,7 @@ export default function Navbar(props) {
 
             DesaPet
           </Typography>
+          <Search />
         </Toolbar>
       </AppBar>
       <Drawer

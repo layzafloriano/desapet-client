@@ -58,6 +58,8 @@ export default function NewAdd(props) {
 
   const [listCity, setListCity] = useState([]);
 
+  const [iconRandom] = useState(generateIconRandom());
+
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
@@ -79,6 +81,10 @@ export default function NewAdd(props) {
       return (<Redirect push to ='/' />);
     })
     .catch( error => console.log(error) )
+  }
+
+  function generateIconRandom() {
+    return `./assets/pet-random-${Math.floor(Math.random() * 5)}.gif`;
   }
 
   const onFileChangeHandler=event=>{
@@ -108,10 +114,6 @@ export default function NewAdd(props) {
 
   useEffect(getListCity, [values.state]);
 
-  function iconRandom() {
-    return `./assets/pet-random-${Math.floor(Math.random() * 5)}.gif`;
-  }
-
   return (
     <Container component="main" maxWidth="md">
       <CssBaseline />
@@ -119,7 +121,7 @@ export default function NewAdd(props) {
         <picture className={classes.avatar}>
           <img
             className={classes.avatarImg}
-            src={iconRandom()}
+            src={iconRandom}
             alt="Pet fofinho"
           />
         </picture>
