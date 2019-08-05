@@ -101,6 +101,7 @@ const Login = (props) => {
             id="username"
             name="username"
             label="Email"
+            type="email"
             variant="outlined"
             fullWidth
             required

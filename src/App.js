@@ -4,7 +4,8 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './components/home/Home';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
-import NewAdd from './components/ad/NewAdd';
+import NewAd from './components/ad/NewAd';
+import InternAd from './components/ad/Ad';
 import Navbar from './components/navbar/Navbar'
 import ProtectedRoute from './components/auth/protected-route';
 import AuthService from './providers/auth-service';
@@ -67,7 +68,8 @@ class App extends Component {
             <Navbar userInSession={this.state.loggedInUser} getUser={this.getTheUser} />
             <Switch>
               <Route exact path='/' render={() => <Home getUser={this.getTheUser}/>}/>
-              <ProtectedRoute user={this.state.loggedInUser} path='/novo-anuncio' component={NewAdd} />
+              <ProtectedRoute user={this.state.loggedInUser} path='/novo-anuncio' component={NewAd} />
+              <Route exact path='/ad' render={() => <InternAd />} />
             </Switch>
           </div>
         </MuiThemeProvider>
@@ -81,6 +83,8 @@ class App extends Component {
               <Route exact path='/' render={() => <Home getUser={this.getTheUser}/>}/>
               <Route exact path='/signup' render={() => <Signup getUser={this.getTheUser}/>}/>
               <Route exact path='/login' render={() => <Login getUser={this.getTheUser}/>}/>
+              <Route exact path='/ad' render={() => <InternAd />} />
+              <InternAd />
             </Switch>
           </div>
         </MuiThemeProvider>
