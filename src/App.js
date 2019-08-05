@@ -68,8 +68,8 @@ class App extends Component {
             <Navbar userInSession={this.state.loggedInUser} getUser={this.getTheUser} />
             <Switch>
               <Route exact path='/' render={() => <Home getUser={this.getTheUser}/>}/>
-              <ProtectedRoute user={this.state.loggedInUser} path='/novo-anuncio' component={NewAd} />
-              <Route exact path='/ad' render={() => <InternAd />} />
+              <ProtectedRoute user={this.state.loggedInUser} exact path='/novo-anuncio' component={NewAd} />
+              <Route exact path='/anuncio' render={() => <InternAd />} />
             </Switch>
           </div>
         </MuiThemeProvider>
@@ -83,7 +83,7 @@ class App extends Component {
               <Route exact path='/' render={() => <Home getUser={this.getTheUser}/>}/>
               <Route exact path='/signup' render={() => <Signup getUser={this.getTheUser}/>}/>
               <Route exact path='/login' render={() => <Login getUser={this.getTheUser}/>}/>
-              <Route exact path='/ad' render={() => <InternAd />} />
+              <Route exact path='/anuncio' render={() => <InternAd />} />
               <InternAd />
             </Switch>
           </div>
