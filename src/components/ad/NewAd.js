@@ -209,7 +209,7 @@ export default function NewAdd(props) {
                 value={values.state}
                 onChange={handleChange('state')}
                 margin="normal"
-                required
+                // required
                 variant="outlined"
                 fullWidth
                 SelectProps={{
@@ -235,7 +235,7 @@ export default function NewAdd(props) {
                   value={values.city}
                   onChange={handleChange('city')}
                   margin="normal"
-                  required
+                  // required
                   variant="outlined"
                   fullWidth
                   SelectProps={{

@@ -13,6 +13,7 @@ class AuthService {
   signup = (username, password) => {
     return this.service.post('/signup', {username, password})
     .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data))
   }
   loggedin = () => {
     return this.service.get('/loggedin')
