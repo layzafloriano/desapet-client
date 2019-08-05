@@ -18,20 +18,25 @@ class AdService {
     formData.set('state', state);
     formData.set('city', city);
     formData.set('price', price);
-    // { description, title, state, city, price }
+    
     const config = {
       headers: {
         'content-type': 'multipart/form-data'
       }
     };
     return this.service.post('/add-ad', formData, config)
-    .then(response => response.data)
+    .then(response => response.data);
   }
 
-  // upload = (image) => {
-  //   return this.service.post('/upload', {image})
-  //   .then(response => response.data)
-  // }
+  getListState = () => {
+    return this.service.get('/add-ad-state')
+    .then(response => response.data);
+  }
+
+  getListCity = (stateID) => {
+    return this.service.get(`/add-ad-city/${stateID}`)
+    .then(response => response.data);
+  }
 }
 
 export default AdService;
