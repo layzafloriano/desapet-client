@@ -30,8 +30,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(4),
   },
   cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(6),
   },
   card: {
     height: '100%',
@@ -50,13 +50,47 @@ const useStyles = makeStyles(theme => ({
   },
   colorWhite: {
     color: '#FFFFFF',
+  },
+  showcaseTitle: {
+    marginTop: theme.spacing(3),
   }
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const cards = [0, 1, 2, 3];
 
 export default function Album() {
   const classes = useStyles();
+
+  function showcaseList(list) {
+    return (
+      <Grid container spacing={4}>
+        {list.map(card => (
+          <Grid item key={card} xs={12} sm={6} md={3}>
+            <Card className={classes.card}>
+              <CardMedia
+                className={classes.cardMedia}
+                image="https://source.unsplash.com/random"
+                title="Image title"
+              />
+              <CardContent className={classes.cardContent}>
+                <Typography>
+                  This is a media card. You can use this.
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small" color="primary">
+                  Ver mais
+                </Button>
+                <Button size="small" color="primary">
+                  Reservar
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    );
+  }
 
   return (
     <>
@@ -83,35 +117,20 @@ export default function Album() {
         </div>
 
         <Container className={classes.cardGrid} maxWidth="md">
-          <Grid container spacing={4}>
-            {cards.map(card => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Heading
-                    </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe the content.
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      View
-                    </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
+            Cachorros
+          </Typography>
+          {showcaseList(cards)}
+
+          <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
+            Gatos
+          </Typography>
+          {showcaseList(cards)}
+
+          <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
+            Outros
+          </Typography>
+          {showcaseList(cards)}
         </Container>
       </main>
     </>
