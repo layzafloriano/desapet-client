@@ -6,7 +6,8 @@ import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import NewAd from './components/ad/NewAd';
 import InternAd from './components/ad/Ad';
-import Navbar from './components/navbar/Navbar'
+import Search from './components/search/Search';
+import Navbar from './components/navbar/Navbar';
 import ProtectedRoute from './components/auth/protected-route';
 import AuthService from './providers/auth-service';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -68,8 +69,9 @@ class App extends Component {
             <Navbar userInSession={this.state.loggedInUser} getUser={this.getTheUser} />
             <Switch>
               <Route exact path='/' render={() => <Home getUser={this.getTheUser}/>}/>
-              <ProtectedRoute user={this.state.loggedInUser} path='/novo-anuncio' component={NewAd} />
-              <Route exact path='/ad' render={() => <InternAd />} />
+              <ProtectedRoute user={this.state.loggedInUser} exact path='/novo-anuncio' component={NewAd} />
+              <Route exact path='/anuncio' render={() => <InternAd />} />
+              <Route exact path='/buscar' render={() => <Search />} />
             </Switch>
           </div>
         </MuiThemeProvider>
@@ -83,7 +85,8 @@ class App extends Component {
               <Route exact path='/' render={() => <Home getUser={this.getTheUser}/>}/>
               <Route exact path='/signup' render={() => <Signup getUser={this.getTheUser}/>}/>
               <Route exact path='/login' render={() => <Login getUser={this.getTheUser}/>}/>
-              <Route exact path='/ad' render={() => <InternAd />} />
+              <Route exact path='/anuncio' render={() => <InternAd />} />
+              <Route exact path='/buscar' render={() => <Search />} />
               <InternAd />
             </Switch>
           </div>

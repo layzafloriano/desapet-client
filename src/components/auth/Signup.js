@@ -3,8 +3,6 @@ import AuthService from '../../providers/auth-service';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-// import Button from "@material-ui/core/Button";
-// import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
 import Error from '../error/Error'
 import Fab from "@material-ui/core/Fab";
@@ -66,12 +64,6 @@ const Signup = (props) => {
     return `./assets/pet-random-${Math.floor(Math.random() * 5)}.gif`;
   }
 
-
-  // const renderError = () => {
-  //   if( signupData.hasError === true ) {
-  //     return (<Error></Error>)
-  //   }
-  // }
 
   const handleChange = name => event => {
     setSignupData({ ...signupData, [name]: event.target.value });
@@ -174,58 +166,3 @@ const Signup = (props) => {
 }
 
 export default Signup;
-
-
-
-
-
-
-
-
-
-
-
-// return(
-//   <Container maxWidth="sm">
-//     <Card className={classes.card}>
-//       <form onSubmit={handleFormSubmit} className={classes.container} noValidate autoComplete="off">
-//       <div>{renderError()}</div>
-//         <TextField
-//         id="username"
-//         name="username"
-//         label="Email"
-//         variant="outlined"
-//         fullWidth
-//         required
-//         className={classes.textField}
-//         style={{ margin: 8 }}
-//         onChange={handleChange('username')}
-//         />
-
-//         <TextField
-//         id="standard-password-input"
-//         label="Senha"
-//         variant="outlined"
-//         fullWidth
-//         required
-//         className={classes.textField}
-//         type="password"
-//         autoComplete="current-password"
-//         style={{ margin: 8 }}
-//         onChange={handleChange('password')}
-//         />
-
-//         <Button
-//         variant="outlined" 
-//         color="primary"
-//         type="submit">
-//         Criar conta
-//         </Button>
-        
-//       </form>
-//       <p>Já possui conta?
-//           <Link to={"/signup"}> Entre aqui</Link>
-//       </p>
-//     </Card>
-//   </Container>
-// )

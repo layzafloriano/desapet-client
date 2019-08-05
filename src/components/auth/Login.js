@@ -53,6 +53,8 @@ const Login = (props) => {
     hasError: false,
     message: '',
   });
+
+  
   const [iconRandom] = useState(generateIconRandom());
 
   function handleChange(name) {
