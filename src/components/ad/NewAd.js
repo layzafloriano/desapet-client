@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import NumberFormat from 'react-number-format';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -40,6 +41,29 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden',
   }
 }));
+
+function NumberFormatCustom(props) {
+  const { inputRef, onChange, ...other } = props;
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={values => {
+        onChange({
+          target: {
+            value: values.value,
+          },
+        });
+      }}
+      thousandSeparator="."
+      decimalSeparator=","
+      decimalScale="2"
+      fixedDecimalScale={true}
+      prefix="R$ "
+    />
+  );
+}
 
 export default function NewAdd(props) {
   const service = new AdService();
@@ -169,6 +193,22 @@ export default function NewAdd(props) {
                 id="price"
                 label="Valor do produto - R$"
                 variant="outlined"
+                onChange={handleChange('price')}
+                InputProps={{
+                  inputComponent: NumberFormatCustom,
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                className={classes.textField}
+                fullWidth
+                margin="normal"
+                required
+              />
+              {/* <TextField
+                id="price"
+                label="Valor do produto - R$"
+                variant="outlined"
                 fullWidth
                 onChange={handleChange('price')}
                 type="number"
@@ -178,7 +218,7 @@ export default function NewAdd(props) {
                 }}
                 margin="normal"
                 required
-              />
+              /> */}
             </Grid>
 
             <Grid item xs={12} sm={6}>
