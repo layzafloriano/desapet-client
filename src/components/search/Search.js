@@ -39,8 +39,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const cards = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-
 export default function Search(props) {
   const classes = useStyles();
   const { search } = props.match.params;
@@ -62,6 +60,10 @@ export default function Search(props) {
 
   useEffect(getResults, []);
 
+  function formatMoney(money) {
+    return money.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
   function showcaseList(list) {
     return (
       <Grid container spacing={4}>
@@ -78,7 +80,7 @@ export default function Search(props) {
                   {card.title}
                 </Typography>
                 <Typography>
-                  { `R$ ${card.price}` }
+                  {formatMoney(card.price)}
                 </Typography>
               </CardContent>
               <CardActions>

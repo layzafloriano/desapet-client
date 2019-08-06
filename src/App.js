@@ -87,7 +87,6 @@ class App extends Component {
               <Route exact path='/login' render={() => <Login getUser={this.getTheUser}/>}/>
               <Route exact path='/anuncio' render={() => <InternAd />} />
               <Route path='/buscar/:search' component={Search} />
-              <InternAd />
             </Switch>
           </div>
         </MuiThemeProvider>
