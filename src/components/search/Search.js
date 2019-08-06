@@ -82,10 +82,8 @@ export default function Search(props) {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" color="primary">
-                  {/* Ver mais */}
-                  <Link to={`/anuncio/${card._id}`}>Ver mais
-              </Link>
+                <Button component={Link} to={`/anuncio/${card._id}`} size="small" color="primary">
+                  Ver mais
                 </Button>
                 <Button size="small" color="primary">
                   Reservar
