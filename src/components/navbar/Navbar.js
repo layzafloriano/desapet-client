@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Search from '../search/Search'
+import SearchBar from '../search/SearchBar'
 import clsx from 'clsx';
 import AuthService from '../../providers/auth-service';
 import { Divider } from '@material-ui/core';
@@ -225,10 +225,9 @@ export default function Navbar(props) {
             <IconButton>
               <PetsIcon className={classes.iconWhite} />
             </IconButton>
-
             DesaPet
           </Typography>
-          <Search />
+          <SearchBar />
         </Toolbar>
       </AppBar>
       <Drawer

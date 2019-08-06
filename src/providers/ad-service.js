@@ -37,6 +37,11 @@ class AdService {
     return this.service.get(`/add-ad-city/${stateID}`)
     .then(response => response.data);
   }
+
+  search = (word) => {
+    return this.service.get(`/search/${word}`)
+    .then(response => response.data);
+  }
 }
 
 export default AdService;
