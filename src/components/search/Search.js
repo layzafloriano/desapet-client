@@ -43,7 +43,6 @@ export default function Search(props) {
   const classes = useStyles();
   const { search } = props.match.params;
   const service = new AdService();
-  console.log('this is navigation:', search);
 
   const [listResult, setListResult] = useState({
     quantity: 0,

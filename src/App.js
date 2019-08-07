@@ -70,7 +70,7 @@ class App extends Component {
             <Switch>
               <Route exact path='/' render={() => <Home getUser={this.getTheUser}/>}/>
               <ProtectedRoute user={this.state.loggedInUser} exact path='/novo-anuncio' component={NewAd} />
-              <Route exact path='/anuncio' render={() => <InternAd />} />
+              <Route exact path='/anuncio/:id' component={InternAd} />
               <Route path='/buscar/:search' component={Search} />
             </Switch>
           </div>
@@ -85,7 +85,7 @@ class App extends Component {
               <Route exact path='/' render={() => <Home getUser={this.getTheUser}/>}/>
               <Route exact path='/signup' render={() => <Signup getUser={this.getTheUser}/>}/>
               <Route exact path='/login' render={() => <Login getUser={this.getTheUser}/>}/>
-              <Route exact path='/anuncio' render={() => <InternAd />} />
+              <Route exact path='/anuncio/:id' component={InternAd} />
               <Route path='/buscar/:search' component={Search} />
             </Switch>
           </div>
