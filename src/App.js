@@ -10,6 +10,7 @@ import MyAd from './components/ad/MyAd';
 import MyReservations from './components/ad/MyReservations';
 import Search from './components/search/Search';
 import Navbar from './components/navbar/Navbar';
+import AdminModeration from './components/admin/AdminModeration';
 import ProtectedRoute from './components/auth/protected-route';
 import AuthService from './providers/auth-service';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -63,15 +64,28 @@ class App extends Component {
   }
 
   render() {
+    const { loggedInUser } = this.state;
     this.fetchUser()
-    if(this.state.loggedInUser){
+    if(loggedInUser && loggedInUser.roles === 'admin'){
       return (
         <MuiThemeProvider theme={theme}>
           <div className="App">
-            <Navbar userInSession={this.state.loggedInUser} getUser={this.getTheUser} />
+            <Navbar userInSession={loggedInUser} getUser={this.getTheUser} />
             <Switch>
               <Route exact path='/' render={() => <Home getUser={this.getTheUser}/>}/>
-              <ProtectedRoute user={this.state.loggedInUser} exact path='/novo-anuncio' component={NewAd} />
+              <Route exact path='/admin/moderacao' component={AdminModeration} />
+            </Switch>
+          </div>
+        </MuiThemeProvider>
+      );
+    } else if(loggedInUser){
+      return (
+        <MuiThemeProvider theme={theme}>
+          <div className="App">
+            <Navbar userInSession={loggedInUser} getUser={this.getTheUser} />
+            <Switch>
+              <Route exact path='/' render={() => <Home getUser={this.getTheUser}/>}/>
+              <ProtectedRoute user={loggedInUser} exact path='/novo-anuncio' component={NewAd} />
               <Route exact path='/anuncio/:id' component={InternAd} />
               <Route path='/buscar/:search' component={Search} />
               <Route exact path='/meus-anuncios' component={MyAd} />
@@ -84,7 +98,7 @@ class App extends Component {
       return (
         <MuiThemeProvider theme={theme}>
           <div className="App">
-            <Navbar userInSession={this.state.loggedInUser} />
+            <Navbar userInSession={loggedInUser} />
             <Switch>
               <Route exact path='/' render={() => <Home getUser={this.getTheUser}/>}/>
               <Route exact path='/signup' render={() => <Signup getUser={this.getTheUser}/>}/>
