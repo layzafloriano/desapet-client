@@ -47,6 +47,23 @@ class AdService {
     return this.service.get(`/ad/${id}`)
     .then(response => response.data);
   }
+
+  myAds = () => {
+    return this.service.get('/my-ads')
+    .then(response => response.data);
+  }
+
+  myReservations = () => {
+    return this.service.get('/my-reservations')
+    .then(response => response.data);
+  }
+
+  makeReservation = (id) => {
+    return this.service.post(`/make-reservation/${id}`)
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data))
+  }
+
 }
 
 export default AdService;

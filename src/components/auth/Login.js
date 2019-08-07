@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import Error from '../error/Error';
 import AuthService from '../../providers/auth-service';
 
+import Button from '@material-ui/core/Button';
+
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
@@ -83,6 +85,17 @@ const Login = (props) => {
     setError({ ...error, hasError: false, message: '' });
   }
 
+  function loginGoogle() {
+    service.loginGoogle()
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        // setError({ ...error, hasError: true, message: err.message });
+        console.log(err);
+      })
+  }
+
   return(
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -98,6 +111,9 @@ const Login = (props) => {
         <Typography component="h1" variant="h5">
           Entrar
         </Typography>
+        <Button size="small" color="primary" onClick={() => loginGoogle()}>
+          Login com Google
+        </Button>
         <form onSubmit={handleFormSubmit} className={classes.form}>
           <TextField
             id="username"

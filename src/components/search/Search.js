@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import AdService from '../../providers/ad-service'
+import AdService from '../../providers/ad-service';
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -86,9 +86,9 @@ export default function Search(props) {
                 <Button component={Link} to={`/anuncio/${card._id}`} size="small" color="primary">
                   Ver mais
                 </Button>
-                <Button size="small" color="primary">
+                {/* <Button size="small" color="primary">
                   Reservar
-                </Button>
+                </Button> */}
               </CardActions>
             </Card>
           </Grid>

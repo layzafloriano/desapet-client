@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -10,6 +10,9 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Hidden from '@material-ui/core/Hidden';
+import AdService from '../../providers/ad-service';
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -35,34 +38,20 @@ const useStyles = makeStyles(theme => ({
 
 export default function MyReservations() {
   const classes = useStyles();
+  const service = new AdService();
 
-  const myReservations = [
-    {
-      title: 'Título do anúncio',
-      value: 254.0,
-      description:
-        'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    },
-    {
-      title: 'Título do anúncio',
-      value: 254.0,
-      description:
-        'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    },
-    {
-      title: 'Título do anúncio',
-      value: 254.0,
-      description:
-        'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    },
-    {
-      title: 'Título do anúncio',
-      value: 254.0,
-      description:
-        'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    },
-  ];
+  const [listReservation, setListReservation] = useState([]);
 
+  function getAds() {
+    service.myReservations()
+      .then(res => {
+        setListReservation(res);
+      })
+      .catch(error => console.log(error));
+  }
+
+  useEffect(getAds, []);
+  
   function formatMoney(money) {
     return money ? money.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
   }
@@ -75,14 +64,15 @@ export default function MyReservations() {
           Minhas reservas
         </Typography>
         <Grid container spacing={4} className={classes.cardGrid}>
-          {myReservations.map((post, index) => (
+          { 
+            listReservation && listReservation.map((reservation, index) => (
             <Grid item key={`myad-${index}`} xs={12} md={12}>
               <CardActionArea component="a" href="#">
                 <Card>
                   <Hidden smUp>
                     <CardMedia
                       className={classes.imageMobile}
-                      image="https://source.unsplash.com/random"
+                      image={reservation.imagePath}
                       title="Image title"
                     />
                   </Hidden>
@@ -90,24 +80,21 @@ export default function MyReservations() {
                     <Hidden xsDown>
                       <CardMedia
                         className={classes.cardMedia}
-                        image="https://source.unsplash.com/random"
+                        image={reservation.imagePath}
                         title="Image title"
                       />
                     </Hidden>
                     <div className={classes.cardDetails}>
                       <CardContent>
                         <Typography component="h2" variant="h5">
-                          {post.title}
+                          {reservation.title}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
-                          Valor: {formatMoney(post.value)}
+                          Valor: {formatMoney(reservation.value)}
                         </Typography>
-                        <Typography variant="subtitle1" paragraph>
-                          {post.description}
-                        </Typography>
-                        <Typography variant="subtitle1" color="primary">
-                          Ver mais...
-                        </Typography>
+                        <Button component={Link} to={`/anuncio/${reservation._id}`} size="small" color="primary">
+                          Ver mais
+                        </Button>
                       </CardContent>
                     </div>
                   </div>

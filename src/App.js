@@ -6,7 +6,7 @@ import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import NewAd from './components/ad/NewAd';
 import InternAd from './components/ad/Ad';
-import MyAd from './components/ad/MyAd';
+import MyAd from './components/ad/MyAds';
 import MyReservations from './components/ad/MyReservations';
 import Search from './components/search/Search';
 import Navbar from './components/navbar/Navbar';
