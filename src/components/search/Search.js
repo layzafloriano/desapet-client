@@ -86,9 +86,9 @@ export default function Search(props) {
                 <Button component={Link} to={`/anuncio/${card._id}`} size="small" color="primary">
                   Ver mais
                 </Button>
-                <Button size="small" color="primary">
+                {/* <Button size="small" color="primary">
                   Reservar
-                </Button>
+                </Button> */}
               </CardActions>
             </Card>
           </Grid>

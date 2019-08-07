@@ -59,6 +59,9 @@ const useStyles = makeStyles(theme => ({
   price: {
     margin: theme.spacing(2, 0),
   },
+  alert: {
+    color: '#FF0000',
+  },
   showcaseTitle: {
     marginBottom: theme.spacing(2),
   },
@@ -80,6 +83,16 @@ export default function Ad(props) {
       .then(res => {
         setAd(res);
         console.log(res);
+      })
+      .catch(error => console.log(error));
+  }
+
+  function makeReservation(event) {
+    event.preventDefault();
+    service.makeReservation(id)
+      .then(res => {
+        console.log(res);
+        getAd();
       })
       .catch(error => console.log(error));
   }
@@ -137,6 +150,11 @@ export default function Ad(props) {
           <Grid className={classes.containerContent} item key="details" xs={12} sm={6} md={6}>
             <Card className={classes.contentCard}>
               <div>
+                {
+                  ad.status==='Pending Confirmation' && <Typography className={ classes.alert } variant="subtitle2" gutterBottom>
+                  Este pedido está pendente de aprovação. Qualquer dúvida entre em contato com o nosso suporte.
+                </Typography>
+                }
                 <Typography variant="subtitle2" color="textSecondary" gutterBottom>
                   Categoria: <strong>{ad.category}</strong>
                 </Typography>
@@ -152,15 +170,29 @@ export default function Ad(props) {
                 <Typography variant="body2" component="p">
                   {ad.description}
                 </Typography>
-                <Fab
+
+                {ad.status === 'Reserved' && <Fab
                     type="submit"
                     size="large"
                     variant="extended"
                     color="primary"
                     className={classes.submit}
+                    onClick={(e) => makeReservation(e)}
+                    disabled={true}
+                    >
+                    Produto Reservado
+                  </Fab>}
+
+                {ad.status !== 'Reserved' && <Fab
+                    type="submit"
+                    size="large"
+                    variant="extended"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={(e) => makeReservation(e)}
                     >
                     Reservar
-                  </Fab>
+                  </Fab>}
               </div>
             </Card>
           </Grid>
