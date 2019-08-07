@@ -5,7 +5,6 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
-
 const useStyles = makeStyles(theme => ({
   iconButton: {
     padding: 10,
@@ -24,18 +23,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SearchBar(props) {
+export default function SearchBar() {
   const classes = useStyles();
   const [searchState, setSearchState] = useState('');
 
-  const handleChange = (event) => {
+  function handleChange(event) {
     setSearchState(event.target.value);
-  };
+  }
 
-  const searchClick = () => {
-    // return(<Search word={searchState} />)
+  function searchClick() {
     window.location.href=`/buscar/${searchState}`;
-    // return (<Redirect to='/buscar/123'/>)
+  }
+
+  function searchInEnterKey(event) {
+    if (event.key === 'Enter') {
+      searchClick();
+    }
   }
   
   return (
@@ -45,6 +48,7 @@ export default function SearchBar(props) {
           className={classes.input}
           placeholder="Buscar"
           onChange={(e) => handleChange(e)}
+          onKeyPress={(e) => searchInEnterKey(e)}
           inputProps={{ 'aria-label': 'Buscar' }}
         />
         <IconButton className={classes.iconButton} aria-label="search" onClick={()=>searchClick()}>

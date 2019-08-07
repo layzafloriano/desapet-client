@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Fab from "@material-ui/core/Fab";
-
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import AdService from '../../providers/ad-service'
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -16,7 +21,22 @@ const useStyles = makeStyles(theme => ({
   productDetails: {
     display: 'flex',
   },
-  imageAd:  {
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  contentCard: {
+    padding: 15,
+    height: '100%',
+  },
+  imageAd: {
     border: 'solid 1px #DCDCDC',
     width: '100%',
   },
@@ -29,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     width: '100%',
-    margin: theme.spacing(3, 0, 4),
+    margin: theme.spacing(7, 0, 4),
   },
   title: {
     fontWeight: 'bold',
@@ -37,54 +57,120 @@ const useStyles = makeStyles(theme => ({
     wordWrap: 'break-word',
   },
   price: {
+    margin: theme.spacing(2, 0),
+  },
+  showcaseTitle: {
+    marginBottom: theme.spacing(2),
+  },
+  relatedAd: {
     margin: theme.spacing(4, 0),
-  }
+  },
 }));
 
-export default function Ad() {
+const relatedAd = [0, 1, 2, 3];
+
+export default function Ad(props) {
+  const service = new AdService();
   const classes = useStyles();
+  const { id } = props.match.params;
+  const [ad, setAd] = useState({});
+
+  function getAd() {
+    service.internAd(id)
+      .then(res => {
+        setAd(res);
+      })
+      .catch(error => console.log(error));
+  }
+
+  useEffect(getAd, []);
+
+  function formatMoney(money) {
+    return money ? money.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
+  }
+
+  function showcaseList(list) {
+    return (
+      <Grid container spacing={4}>
+        {list.map(card => (
+          <Grid item key={card} xs={12} sm={6} md={3}>
+            <Card className={classes.card}>
+              <CardMedia
+                className={classes.cardMedia}
+                image="https://source.unsplash.com/random"
+                title="Image title"
+              />
+              <CardContent className={classes.cardContent}>
+                <Typography>
+                  This is a media card. You can use this.
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small" color="primary">
+                  Ver mais
+                </Button>
+                <Button size="small" color="primary">
+                  Reservar
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    );
+  }
+
   return (
     <>
     <CssBaseline />
-    <Container component="main" maxWidth="xl">
+    <Container component="main" maxWidth="md">
       <div className={classes.productDetails}>
-      <Grid container spacing={2}>
-        <Grid className={classes.containerPicture} item key="details" xs={12} sm={12} md={6}>
-          <picture>
-            <img className={classes.imageAd} src="https://res.cloudinary.com/layzafloriano/image/upload/v1564496790/project-management-gallery/coleira.jpg.jpg" alt="Imagem do produto"></img>
-            {/* <img className={classes.imageAd} src="https://images.unsplash.com/photo-1475598322381-f1b499717dda?auto=format&fit=crop&w=1600&h=500&q=60" alt="Imagem do produto"></img> */}
-          </picture>
+        <Grid container spacing={4}>
+          <Grid className={classes.containerPicture} item key="details" xs={12} sm={6} md={6}>
+            <Card className={classes.card}>
+              <picture>
+                {ad.imagePath && <img className={classes.imageAd} src={ad.imagePath} alt="Imagem do produto"></img>}
+              </picture>
+            </Card>
+          </Grid>
+          <Grid className={classes.containerContent} item key="details" xs={12} sm={6} md={6}>
+            <Card className={classes.contentCard}>
+              <div>
+                <Typography variant="subtitle2" color="textSecondary" gutterBottom>
+                  Categoria <strong>Cachorros</strong>
+                </Typography>
+                <Typography variant="h4" className={classes.title} gutterBottom>
+                  {ad.title}
+                </Typography>
+                <Typography className={classes.price} variant="h5" gutterBottom>
+                  Valor: <span className={classes.title}>{formatMoney(ad.price)}</span>
+                </Typography>
+                <Typography variant="subtitle2" gutterBottom>
+                  <strong>Detalhes do produto:</strong>
+                </Typography>
+                <Typography variant="body2" component="p">
+                  {ad.description}
+                </Typography>
+                <Fab
+                    type="submit"
+                    size="large"
+                    variant="extended"
+                    color="primary"
+                    className={classes.submit}
+                    >
+                    Reservar
+                  </Fab>
+              </div>
+            </Card>
+          </Grid>
         </Grid>
-        <Grid className={classes.containerContent} item key="details" xs={12} sm={12} md={6}>
-          <div>
-            <Typography variant="h4" className={classes.title} gutterBottom>
-              Título do produto
-            </Typography>
-            <Typography variant="subtitle2" gutterBottom>
-              Categoria: Cachorros
-            </Typography>
-            <Typography className={classes.price} variant="h5" gutterBottom>
-              Valor: <span className={classes.title}>R$ 10,00</span>
-            </Typography>
-            <Typography variant="subtitle2" gutterBottom>
-              Detalhes do produto
-            </Typography>
-            <Typography variant="subtitle2" gutterBottom>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel ipsum ligula. Phasellus lacus nisl, tempus eget sollicitudin a, vehicula ac nisi. Ut iaculis neque ex, sit amet egestas risus commodo a. Mauris luctus sit amet eros placerat tempus. Nunc luctus sem nec nisi egestas malesuada. Sed laoreet luctus lorem quis dictum. Aliquam et dapibus turpis, quis placerat sem. Pellentesque molestie odio ultricies vulputate venenatis. Donec commodo et risus efficitur luctus. Ut at efficitur metus, a fermentum lacus. Vivamus blandit malesuada vehicula. Mauris at sem ut est laoreet maximus eget in magna. Phasellus posuere turpis lacinia, ornare erat ac, commodo nisi. Sed scelerisque, diam sit amet hendrerit facilisis, quam diam efficitur ex, eget tempus mi massa vitae turpis.
-              Aenean nibh arcu, varius in ultricies vel, maximus at est. Phasellus pellentesque vel urna ut aliquam. Mauris id lorem iaculis, faucibus odio nec, aliquet eros. Etiam dui arcu, auctor a mi quis, sagittis laoreet enim. Praesent at vestibulum enim. Vivamus vulputate lacus id dolor accumsan, eu eleifend nisi tempus. Nulla facilisi. Morbi diam neque, tincidunt quis purus vel, rutrum vulputate nisl.
-            </Typography>
-            <Fab
-                type="submit"
-                size="large"
-                variant="extended"
-                color="primary"
-                className={classes.submit}
-                >
-                Reservar
-              </Fab>
-          </div>
-        </Grid>
-      </Grid>
+      </div>
+
+      <div className={classes.relatedAd}>
+        <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
+          Produtos similares
+        </Typography>
+        {showcaseList(relatedAd)}
       </div>
     </Container>
     </>

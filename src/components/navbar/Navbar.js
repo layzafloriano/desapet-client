@@ -117,8 +117,31 @@ export default function Navbar(props) {
 
   function menuContent() {
     let options = [];
-  
-    if(session.loggedInUser){
+
+    if(session.loggedInUser && session.loggedInUser.roles === 'admin'){
+      options = [
+        {
+          text: `Administrador`,
+          link: '',
+          icon: (<AccountCircleIcon />),
+        },
+        {
+          text: 'Página Inicial',
+          link: '/',
+          icon: (<HomeIcon />),
+        },
+        {
+          text: 'Moderação de conteúdo',
+          link: '/admin/moderacao',
+          icon: (<PetsIcon />),
+        },
+        {
+          text: 'Sair',
+          onClick: logoutUser,
+          icon: (<ExitToAppIcon />),
+        },
+      ];
+    } else if(session.loggedInUser){
       options = [
         {
           text: `Olá, ${session.loggedInUser.username}`,
@@ -133,6 +156,16 @@ export default function Navbar(props) {
         {
           text: 'Criar novo anúncio',
           link: '/novo-anuncio',
+          icon: (<PetsIcon />),
+        },
+        {
+          text: 'Meus anúncios',
+          link: '/meus-anuncios',
+          icon: (<PetsIcon />),
+        },
+        {
+          text: 'Minhas reservas',
+          link: '/minhas-reservas',
           icon: (<PetsIcon />),
         },
         {

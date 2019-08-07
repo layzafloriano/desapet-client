@@ -147,7 +147,7 @@ const Signup = (props) => {
             color="primary"
             className={classes.submit}
           >
-            Entrar
+            Cadastrar
           </Fab>
 
           <Grid container>

@@ -42,6 +42,11 @@ class AdService {
     return this.service.get(`/search/${word}`)
     .then(response => response.data);
   }
+
+  internAd = (id) => {
+    return this.service.get(`/ad/${id}`)
+    .then(response => response.data);
+  }
 }
 
 export default AdService;
