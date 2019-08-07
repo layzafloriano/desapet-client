@@ -136,6 +136,11 @@ export default function Navbar(props) {
           icon: (<PetsIcon />),
         },
         {
+          text: 'Meus anúncios',
+          link: '/meus-anuncios',
+          icon: (<PetsIcon />),
+        },
+        {
           text: 'Sair',
           onClick: logoutUser,
           icon: (<ExitToAppIcon />),

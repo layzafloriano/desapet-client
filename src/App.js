@@ -6,6 +6,7 @@ import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import NewAd from './components/ad/NewAd';
 import InternAd from './components/ad/Ad';
+import MyAd from './components/ad/MyAd';
 import Search from './components/search/Search';
 import Navbar from './components/navbar/Navbar';
 import ProtectedRoute from './components/auth/protected-route';
@@ -72,6 +73,7 @@ class App extends Component {
               <ProtectedRoute user={this.state.loggedInUser} exact path='/novo-anuncio' component={NewAd} />
               <Route exact path='/anuncio/:id' component={InternAd} />
               <Route path='/buscar/:search' component={Search} />
+              <Route exact path='/meus-anuncios' component={MyAd} />
             </Switch>
           </div>
         </MuiThemeProvider>
