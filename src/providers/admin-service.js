@@ -14,9 +14,21 @@ class AdminService {
   //   .then(response => response.data)
   //   .catch(err => Promise.reject(err.response.data))
   // }
-  
+
   getModeration = () => {
     return this.service.get('/moderation')
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data))
+  }
+ 
+  approveMe = (id) => {
+    return this.service.get(`/approve-me/${id}`)
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data))
+  }
+
+  rejectMe = (id) => {
+    return this.service.get(`/reject-me/${id}`)
     .then(response => response.data)
     .catch(err => Promise.reject(err.response.data))
   }

@@ -56,7 +56,17 @@ export default function AdminModeration() {
       })
       .catch(error => console.log(error));
   }
-  console.log('moderation list aqui: ', moderationList);
+
+  const handleApproveAd = id => event => {
+    event.preventDefault();
+    service.approveMe(id)
+      .then(res => {
+        console.log(res);
+        getListModeration();
+      })
+      .catch(error => console.log(error));
+  }
+ 
   useEffect(getListModeration, []);
 
   function formatMoney(money) {
@@ -100,7 +110,10 @@ export default function AdminModeration() {
 
                       <ButtonGroup size="small" aria-label="small outlined button group">
                         <Button component={ Link } to={`/anuncio/${ad._id}`}>Ver anúncio</Button>
-                        <Button className={classes.btnGreen}>Aprovar</Button>
+                        <Button
+                         className={classes.btnGreen}
+                         onClick={handleApproveAd(ad._id)}
+                         >Aprovar</Button>
                         <Button className={classes.btnRed}>Recusar</Button>
                       </ButtonGroup>
                     </CardContent>
