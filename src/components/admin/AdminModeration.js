@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -11,6 +11,9 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Hidden from '@material-ui/core/Hidden';
+import { Link } from 'react-router-dom';
+import AdminService from '../../providers/admin-service';
+
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -42,33 +45,19 @@ const useStyles = makeStyles(theme => ({
 
 export default function AdminModeration() {
   const classes = useStyles();
+  const service = new AdminService();
 
-  const adminModeration = [
-    {
-      title: 'Título do anúncio',
-      value: 254.0,
-      description:
-        'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    },
-    {
-      title: 'Título do anúncio',
-      value: 254.0,
-      description:
-        'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    },
-    {
-      title: 'Título do anúncio',
-      value: 254.0,
-      description:
-        'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    },
-    {
-      title: 'Título do anúncio',
-      value: 254.0,
-      description:
-        'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    },
-  ];
+  const [moderationList, setModerationList] = useState([]);
+
+  function getListModeration() {
+    service.getModeration()
+      .then(res => {
+        setModerationList(res);
+      })
+      .catch(error => console.log(error));
+  }
+  console.log('moderation list aqui: ', moderationList);
+  useEffect(getListModeration, []);
 
   function formatMoney(money) {
     return money ? money.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
@@ -82,13 +71,13 @@ export default function AdminModeration() {
           Moderação de conteúdo
         </Typography>
         <Grid container spacing={4} className={classes.cardGrid}>
-          {adminModeration.map((post, index) => (
+          {moderationList.map((ad, index) => (
             <Grid item key={`myad-${index}`} xs={12} md={12}>
               <Card>
                 <Hidden smUp>
                   <CardMedia
                     className={classes.imageMobile}
-                    image="https://source.unsplash.com/random"
+                    image={ ad.imagePath }
                     title="Image title"
                   />
                 </Hidden>
@@ -96,24 +85,21 @@ export default function AdminModeration() {
                   <Hidden xsDown>
                     <CardMedia
                       className={classes.cardMedia}
-                      image="https://source.unsplash.com/random"
+                      image={ ad.imagePath }
                       title="Image title"
                     />
                   </Hidden>
                   <div className={classes.cardDetails}>
                     <CardContent>
                       <Typography component="h2" variant="h5">
-                        {post.title}
+                        {ad.title}
                       </Typography>
                       <Typography variant="subtitle1" color="textSecondary">
-                        Valor: {formatMoney(post.value)}
-                      </Typography>
-                      <Typography variant="subtitle1" paragraph>
-                        {post.description}
+                        Valor: {formatMoney(ad.price)}
                       </Typography>
 
                       <ButtonGroup size="small" aria-label="small outlined button group">
-                        <Button>Ver anúncio</Button>
+                        <Button component={ Link } to={`/anuncio/${ad._id}`}>Ver anúncio</Button>
                         <Button className={classes.btnGreen}>Aprovar</Button>
                         <Button className={classes.btnRed}>Recusar</Button>
                       </ButtonGroup>
