@@ -66,6 +66,16 @@ export default function AdminModeration() {
       })
       .catch(error => console.log(error));
   }
+
+  const handleRejectAd = id => event => {
+    event.preventDefault();
+    service.rejectMe(id)
+      .then(res => {
+        console.log(res);
+        getListModeration();
+      })
+      .catch(error => console.log(error));
+  }
  
   useEffect(getListModeration, []);
 
@@ -114,7 +124,10 @@ export default function AdminModeration() {
                          className={classes.btnGreen}
                          onClick={handleApproveAd(ad._id)}
                          >Aprovar</Button>
-                        <Button className={classes.btnRed}>Recusar</Button>
+                        <Button
+                         className={classes.btnRed}
+                         onClick={handleRejectAd(ad._id)}
+                         >Recusar</Button>
                       </ButtonGroup>
                     </CardContent>
                   </div>

@@ -9,16 +9,11 @@ class AdminService {
     this.service = service;
   }
 
-  // signup = (username, password) => {
-  //   return this.service.post('/signup', {username, password})
-  //   .then(response => response.data)
-  //   .catch(err => Promise.reject(err.response.data))
-  // }
-
   getModeration = () => {
     return this.service.get('/moderation')
     .then(response => response.data)
     .catch(err => Promise.reject(err.response.data))
+    
   }
  
   approveMe = (id) => {
