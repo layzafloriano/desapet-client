@@ -52,8 +52,6 @@ export default function MyAds() {
 
   useEffect(getAds, []);
 
-  console.log(listAd);
-
   function formatMoney(money) {
     return money ? money.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
   }
