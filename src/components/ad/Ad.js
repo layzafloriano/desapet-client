@@ -79,6 +79,7 @@ export default function Ad(props) {
     service.internAd(id)
       .then(res => {
         setAd(res);
+        console.log(res);
       })
       .catch(error => console.log(error));
   }
@@ -137,7 +138,7 @@ export default function Ad(props) {
             <Card className={classes.contentCard}>
               <div>
                 <Typography variant="subtitle2" color="textSecondary" gutterBottom>
-                  Categoria <strong>Cachorros</strong>
+                  Categoria: <strong>{ad.category}</strong>
                 </Typography>
                 <Typography variant="h4" className={classes.title} gutterBottom>
                   {ad.title}
