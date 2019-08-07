@@ -33,10 +33,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function MyAd() {
+export default function MyReservations() {
   const classes = useStyles();
 
-  const myAd = [
+  const myReservations = [
     {
       title: 'Título do anúncio',
       value: 254.0,
@@ -75,7 +75,7 @@ export default function MyAd() {
           Minhas reservas
         </Typography>
         <Grid container spacing={4} className={classes.cardGrid}>
-          {myAd.map((post, index) => (
+          {myReservations.map((post, index) => (
             <Grid item key={`myad-${index}`} xs={12} md={12}>
               <CardActionArea component="a" href="#">
                 <Card>

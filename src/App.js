@@ -7,6 +7,7 @@ import Login from './components/auth/Login';
 import NewAd from './components/ad/NewAd';
 import InternAd from './components/ad/Ad';
 import MyAd from './components/ad/MyAd';
+import MyReservations from './components/ad/MyReservations';
 import Search from './components/search/Search';
 import Navbar from './components/navbar/Navbar';
 import ProtectedRoute from './components/auth/protected-route';
@@ -74,6 +75,7 @@ class App extends Component {
               <Route exact path='/anuncio/:id' component={InternAd} />
               <Route path='/buscar/:search' component={Search} />
               <Route exact path='/meus-anuncios' component={MyAd} />
+              <Route exact path='/minhas-reservas' component={MyReservations} />
             </Switch>
           </div>
         </MuiThemeProvider>

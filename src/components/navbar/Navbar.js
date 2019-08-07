@@ -141,6 +141,11 @@ export default function Navbar(props) {
           icon: (<PetsIcon />),
         },
         {
+          text: 'Minhas reservas',
+          link: '/minhas-reservas',
+          icon: (<PetsIcon />),
+        },
+        {
           text: 'Sair',
           onClick: logoutUser,
           icon: (<ExitToAppIcon />),
