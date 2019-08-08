@@ -65,10 +65,8 @@ export default function AdminShowcaseItem(props) {
   }
 
   function handleAddAd(ad) {
-    console.log('handleAddAd', ad);
     service.addToShowCase(ad)
       .then(res => {
-        // setShowCaseStateOnDisplay(res.ad);
         console.log(res.ad)
         getNotOnDisplay();
         getOnDisplay();
@@ -76,8 +74,15 @@ export default function AdminShowcaseItem(props) {
       .catch(error => console.log(error));
   }
 
-  function handleRemoveAd(id) {
+  function handleRemoveAd(ad) {
     console.log('handleRemoveAd', id);
+    service.removeShowCase(ad)
+      .then(res => {
+        console.log(res.ad)
+        getNotOnDisplay();
+        getOnDisplay();
+      })
+      .catch(error => console.log(error));
   }
 
   useEffect(getNotOnDisplay, []);
