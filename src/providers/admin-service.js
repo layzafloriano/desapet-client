@@ -28,6 +28,12 @@ class AdminService {
     .catch(err => Promise.reject(err.response.data))
   }
 
+  getShowCases = () => {
+    return this.service.get('/all-active-shopwindows')
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data))
+  }
+
 }
 
 export default AdminService;

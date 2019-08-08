@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
@@ -11,6 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
 import PetsIcon from '@material-ui/icons/Pets';
 import Box from '@material-ui/core/Box';
+import AdminService from '../../providers/admin-service'
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function AdminShowcases() {
   const classes = useStyles();
+  const service = new AdminService();
 
   const showCases = [
     {
@@ -39,6 +40,19 @@ export default function AdminShowcases() {
     },
   ];
 
+  const [showCaseState, setShowCaseState] = useState([]);
+
+  function getListShowcase() {
+    service.getShowCases()
+      .then(res => {
+        setShowCaseState(res.active);
+        console.log(res.active)
+      })
+      .catch(error => console.log(error));
+  }
+
+  useEffect(getListShowcase, []);
+  
   return (
     <>
       <CssBaseline />
@@ -50,7 +64,7 @@ export default function AdminShowcases() {
           <Grid item xs={12}>
             <Box boxShadow={2}>
               <MenuList>
-                {showCases.map(item => 
+                {showCaseState.map(item => 
                   <MenuItem component={Link} to={`/admin/vitrine/${item._id}`}>
                     <ListItemIcon>
                       <PetsIcon />
