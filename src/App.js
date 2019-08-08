@@ -12,6 +12,7 @@ import Search from './components/search/Search';
 import Navbar from './components/navbar/Navbar';
 import AdminModeration from './components/admin/AdminModeration';
 import AdminShowcases from './components/admin/AdminShowcases';
+import AdminShowcaseItem from './components/admin/AdminShowcaseItem';
 import ProtectedRoute from './components/auth/protected-route';
 import AuthService from './providers/auth-service';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -76,6 +77,7 @@ class App extends Component {
               <Route exact path='/' render={() => <Home getUser={this.getTheUser}/>}/>
               <Route exact path='/admin/moderacao' component={AdminModeration} />
               <Route exact path='/admin/vitrines' component={AdminShowcases} />
+              <Route exact path='/admin/vitrine/:id' component={AdminShowcaseItem} />
               <Route exact path='/anuncio/:id' component={InternAd} />
             </Switch>
           </div>
