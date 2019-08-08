@@ -75,6 +75,7 @@ export default function NewAdd(props) {
     price: '',
     state: '',
     city: '',
+    category: '',
     // status: '',
   });
   const [successModal, setSuccessModal] = useState({
@@ -91,6 +92,8 @@ export default function NewAdd(props) {
 
   const [listCity, setListCity] = useState([]);
 
+  const [listCategory, setListCategory] = useState([]);
+
   const [iconRandom] = useState(generateIconRandom());
 
   const handleChange = name => event => {
@@ -105,12 +108,14 @@ export default function NewAdd(props) {
     const price = values.price;
     const state = values.state;
     const city = values.city;
+    const category = values.category;
 
     const data = new FormData() 
     data.append('photo', values.imageFile)
 
-    service.addAd(title, description, price, state, city, imageFile)
+    service.addAd(title, description, price, state, city, imageFile, category)
     .then(res => {
+      console.log(res)
       setSuccessModal({
         ...successModal,
         display: true,
@@ -148,7 +153,18 @@ export default function NewAdd(props) {
       .catch(error => console.log(error));
   }
 
+  function getListCategory() {
+    service.getCategory()
+      .then(res => {
+        setListCategory(res);
+        console.log(res)
+      })
+      .catch(error => console.log(error));
+  }
+
   useEffect(getListState, []);
+
+  useEffect(getListCategory, []);
 
   function getListCity() {
     if (!values.state) return;
@@ -161,6 +177,9 @@ export default function NewAdd(props) {
   }
 
   useEffect(getListCity, [values.state]);
+
+
+  console.log(values);
 
   return (
     <Container component="main" maxWidth="md">
@@ -317,7 +336,30 @@ export default function NewAdd(props) {
                 </TextField>
               }
             </Grid>
-
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="categories"
+                select
+                label="Selecione uma categoria"
+                className={classes.textField}
+                value={values.category}
+                onChange={handleChange('category')}
+                margin="normal"
+                // required
+                variant="outlined"
+                fullWidth
+                SelectProps={{
+                  native: true
+                }}
+              >
+                <option />
+                {listCategory.map(option => (
+                  <option key={option.category} value={option._id}>
+                    {option.category}
+                  </option>
+                ))}
+              </TextField>
+            </Grid>
             <Grid item xs={12}>
               <Fab
                 type="submit"

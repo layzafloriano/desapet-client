@@ -9,7 +9,7 @@ class AdService {
     this.service = service;
   }
 
-  addAd = (title, description, price, state, city, file) => {
+  addAd = (title, description, price, state, city, file, category) => {
     const formData = new FormData();
     formData.append('photo', file);
     formData.set('originalname', file.name);
@@ -18,6 +18,7 @@ class AdService {
     formData.set('state', state);
     formData.set('city', city);
     formData.set('price', price);
+    formData.set('category', category);
     
     const config = {
       headers: {
@@ -35,6 +36,11 @@ class AdService {
 
   getListCity = (stateID) => {
     return this.service.get(`/add-ad-city/${stateID}`)
+    .then(response => response.data);
+  }
+
+  getCategory = () => {
+    return this.service.get('/categories')
     .then(response => response.data);
   }
 
