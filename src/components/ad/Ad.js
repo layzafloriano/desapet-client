@@ -11,6 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import AdService from '../../providers/ad-service'
 import Button from '@material-ui/core/Button';
+import Promote from './Promote';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -77,6 +78,7 @@ export default function Ad(props) {
   const classes = useStyles();
   const { id } = props.match.params;
   const [ad, setAd] = useState({});
+  const [showPromote, setShowPromote] = useState(false);
 
   function getAd() {
     service.internAd(id)
@@ -101,6 +103,10 @@ export default function Ad(props) {
 
   function formatMoney(money) {
     return money ? money.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
+  }
+
+  function promoteClick() {
+    setShowPromote(!showPromote);
   }
 
   function showcaseList(list) {
@@ -193,6 +199,16 @@ export default function Ad(props) {
                     >
                     Reservar
                   </Fab>}
+
+                  <Fab
+                    size="large"
+                    variant="extended"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={() => promoteClick()}
+                    >
+                    Promover
+                  </Fab>
               </div>
             </Card>
           </Grid>
@@ -200,6 +216,9 @@ export default function Ad(props) {
       </div>
 
       <div className={classes.relatedAd}>
+        {
+          showPromote && <Promote { ...ad }/>
+        }
         <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
           Produtos similares
         </Typography>
