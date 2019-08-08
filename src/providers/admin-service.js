@@ -34,6 +34,18 @@ class AdminService {
     .catch(err => Promise.reject(err.response.data))
   }
 
+  showCaseNotOnDisplay = (id) => {
+    return this.service.get(`/window-not-on-display/${id}`)
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data))
+  }
+  
+  showCaseOnDisplay = (id) => {
+    return this.service.get(`/window-on-display/${id}`)
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data))
+  }
+
 }
 
 export default AdminService;

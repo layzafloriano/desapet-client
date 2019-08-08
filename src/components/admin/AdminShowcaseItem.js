@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,6 +8,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import AdminService from '../../providers/admin-service'
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -40,37 +40,30 @@ const useStyles = makeStyles(theme => ({
 
 export default function AdminShowcaseItem(props) {
   const classes = useStyles();
-  // const { id } = props.match.params;
+  const { id } = props.match.params;
+  const service = new AdminService();
 
-  const adOnShowcase = [
-    {
-      _id: '5d49e9ac62f3fe255dc8c97b',
-      title: 'Anúncio 1'
-    },
-    {
-      _id: '5d49e9ac62f3fe255dc8c97b',
-      title: 'Anúncio 2'
-    },
-    {
-      _id: '5d49e9ac62f3fe255dc8c97b',
-      title: 'Anúncio 3'
-    },
-  ];
+  const [showCaseStateAvailable, setShowCaseStateAvailable] = useState([]);
+  const [showCaseStateOnDisplay, setShowCaseStateOnDisplay] = useState([]);
 
-  const adAvailables = [
-    {
-      _id: '5d49e9ac62f3fe255dc8c97b',
-      title: 'Anúncio 45'
-    },
-    {
-      _id: '5d49e9ac62f3fe255dc8c97b',
-      title: 'Anúncio 50'
-    },
-    {
-      _id: '5d49e9ac62f3fe255dc8c97b',
-      title: 'Anúncio 80'
-    },
-  ];
+
+  function getNotOnDisplay() {
+    service.showCaseNotOnDisplay(id)
+      .then(res => {
+        setShowCaseStateAvailable(res.ad);
+        console.log(res.ad)
+      })
+      .catch(error => console.log(error));
+  }
+
+  function getOnDisplay() {
+    service.showCaseOnDisplay(id)
+      .then(res => {
+        setShowCaseStateOnDisplay(res.ad);
+        console.log(res.ad)
+      })
+      .catch(error => console.log(error));
+  }
 
   function handleAddAd(id) {
     console.log('handleAddAd', id);
@@ -79,6 +72,9 @@ export default function AdminShowcaseItem(props) {
   function handleRemoveAd(id) {
     console.log('handleRemoveAd', id);
   }
+
+  useEffect(getNotOnDisplay, []);
+  useEffect(getOnDisplay, []);
 
   return (
     <>
@@ -93,7 +89,7 @@ export default function AdminShowcaseItem(props) {
         </Typography>
 
         <div className={classes.showCaseList}>
-          {adOnShowcase.map((ad, index) => 
+          {showCaseStateOnDisplay.map((ad, index) => 
             <ExpansionPanel key={`adOnShowcase${index}`} expanded={false}>
               <ExpansionPanelSummary
                 aria-controls="panel1bh-content"
@@ -119,7 +115,7 @@ export default function AdminShowcaseItem(props) {
         </Typography>
 
         <div className={classes.showCaseList}>
-          {adAvailables.map((ad, index) => 
+          {showCaseStateAvailable.map((ad, index) => 
             <ExpansionPanel key={`adAvailables${index}`} expanded={false}>
               <ExpansionPanelSummary
                 aria-controls="panel1bh-content"

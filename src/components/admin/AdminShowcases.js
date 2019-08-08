@@ -25,21 +25,6 @@ export default function AdminShowcases() {
   const classes = useStyles();
   const service = new AdminService();
 
-  const showCases = [
-    {
-      _id: 'testId01',
-      name: 'Vitrine 1'
-    },
-    {
-      _id: 'testId02',
-      name: 'Vitrine 2'
-    },
-    {
-      _id: 'testId03',
-      name: 'Vitrine 3'
-    },
-  ];
-
   const [showCaseState, setShowCaseState] = useState([]);
 
   function getListShowcase() {
