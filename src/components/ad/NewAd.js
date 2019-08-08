@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import AdService from '../../providers/ad-service'
 import TextField from '@material-ui/core/TextField';
@@ -9,6 +8,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import NumberFormat from 'react-number-format';
+import Success from '../success/Success';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -77,6 +77,15 @@ export default function NewAdd(props) {
     city: '',
     // status: '',
   });
+  const [successModal, setSuccessModal] = useState({
+      display: false,
+      title: 'Sucesso!',
+      message: 'Mensagem padrão.',
+      buttonOne: {
+        text: 'Adicionar novo',
+        callback: redirectNewAd,
+      },
+  });
 
   const [listState, setListState] = useState([]);
 
@@ -102,9 +111,24 @@ export default function NewAdd(props) {
 
     service.addAd(title, description, price, state, city, imageFile)
     .then(res => {
-      return (<Redirect push to ='/' />);
+      setSuccessModal({
+        ...successModal,
+        display: true,
+        buttonTwo: {
+          text: 'Ver anúncio',
+          callback: () => redirectToAd(res._id),
+        },
+      });
     })
     .catch( error => console.log(error) )
+  }
+
+  function redirectNewAd() {
+    window.location.href = '/novo-anuncio';
+  }
+
+  function redirectToAd(id) {
+    window.location.href = `/anuncio/${id}`;
   }
 
   function generateIconRandom() {
@@ -306,6 +330,14 @@ export default function NewAdd(props) {
               </Fab>
             </Grid>
           </Grid>
+
+          <Success
+            display={successModal.display}
+            title={successModal.title}
+            message={successModal.message}
+            buttonOne={successModal.buttonOne}
+            buttonTwo={successModal.buttonTwo}>
+          </Success>
         </form>
       </div>
     </Container>
