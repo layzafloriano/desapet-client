@@ -64,6 +64,12 @@ class AdService {
     .catch(err => Promise.reject(err.response.data))
   }
 
+  checkIfOwner = (ad) => {
+    return this.service.get(`/check-if-user/${ad}`)
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data))
+  }
+
 }
 
 export default AdService;

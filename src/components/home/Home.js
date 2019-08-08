@@ -144,7 +144,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Home() {
   const classes = useStyles();
-  const cards = [0, 1, 2];
+  const cards = [0, 1, 2, 3];
   const testText = 'Phasellus eu commodo diam. Curabitur dui sapien, consectetur id diam eu, maximus posuere ante. Donec malesuada vel tellus non tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.';
   
   function limitText(text) {
@@ -155,7 +155,7 @@ export default function Home() {
     return (
       <Grid container spacing={4}>
         {list.map(card => (
-          <Grid item key={card} xs={12} sm={4} md={4}>
+          <Grid item key={card} xs={12} sm={3} md={3}>
             <Box boxShadow={2} className={classes.card}>
               <div className={classes.cardFront}>
                 <div className={classes.cardShadow}></div>
@@ -190,7 +190,7 @@ export default function Home() {
       <CssBaseline />
       <main>
         <div className={classes.heroContent}>
-          <Container maxWidth="sm">
+          <Container maWidth="xl">
             <Typography component="h1" variant="h2" align="center" className={classes.colorWhite} gutterBottom>
               Desapet!
             </Typography>
@@ -209,7 +209,7 @@ export default function Home() {
           </Container>
         </div>
 
-        <Container className={classes.cardGrid} maxWidth="md">
+        <Container className={classes.cardGrid} maxWidth="xl">
           <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
             Cachorros
           </Typography>

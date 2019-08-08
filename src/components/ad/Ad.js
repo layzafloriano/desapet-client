@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     width: '100%',
-    margin: theme.spacing(7, 0, 4),
+    margin: theme.spacing(5, 0, 0),
   },
   title: {
     fontWeight: 'bold',
@@ -79,12 +79,20 @@ export default function Ad(props) {
   const { id } = props.match.params;
   const [ad, setAd] = useState({});
   const [showPromote, setShowPromote] = useState(false);
+  const [showOptionPromote, setShowOptionPromote] = useState(false)
 
   function getAd() {
     service.internAd(id)
       .then(res => {
         setAd(res);
-        console.log(res);
+      })
+      .catch(error => console.log(error));
+  }
+
+  function checkIfOwner() {
+    service.checkIfOwner(id)
+      .then(res => {
+        setShowOptionPromote(true);
       })
       .catch(error => console.log(error));
   }
@@ -99,7 +107,14 @@ export default function Ad(props) {
       .catch(error => console.log(error));
   }
 
-  useEffect(getAd, []);
+  function initialVerifications() {
+    getAd();
+    checkIfOwner()
+  }
+    
+  
+
+  useEffect(initialVerifications, []);
 
   function formatMoney(money) {
     return money ? money.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
@@ -200,7 +215,7 @@ export default function Ad(props) {
                     Reservar
                   </Fab>}
 
-                  <Fab
+                  {showOptionPromote &&<Fab
                     size="large"
                     variant="extended"
                     color="primary"
@@ -209,6 +224,7 @@ export default function Ad(props) {
                     >
                     Promover
                   </Fab>
+                }
               </div>
             </Card>
           </Grid>
