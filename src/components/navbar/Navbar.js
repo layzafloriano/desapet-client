@@ -136,6 +136,11 @@ export default function Navbar(props) {
           icon: (<PetsIcon />),
         },
         {
+          text: 'Vitrines',
+          link: '/admin/vitrines',
+          icon: (<PetsIcon />),
+        },
+        {
           text: 'Sair',
           onClick: logoutUser,
           icon: (<ExitToAppIcon />),
