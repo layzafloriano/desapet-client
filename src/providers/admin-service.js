@@ -45,6 +45,12 @@ class AdminService {
     .then(response => response.data)
     .catch(err => Promise.reject(err.response.data))
   }
+  
+  addToShowCase = (ad) => {
+    return this.service.post(`/add-ad-to-window/${ad}`)
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data))
+  }
 
 }
 

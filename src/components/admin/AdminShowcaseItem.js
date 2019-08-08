@@ -60,13 +60,20 @@ export default function AdminShowcaseItem(props) {
     service.showCaseOnDisplay(id)
       .then(res => {
         setShowCaseStateOnDisplay(res.ad);
-        console.log(res.ad)
       })
       .catch(error => console.log(error));
   }
 
-  function handleAddAd(id) {
-    console.log('handleAddAd', id);
+  function handleAddAd(ad) {
+    console.log('handleAddAd', ad);
+    service.addToShowCase(ad)
+      .then(res => {
+        // setShowCaseStateOnDisplay(res.ad);
+        console.log(res.ad)
+        getNotOnDisplay();
+        getOnDisplay();
+      })
+      .catch(error => console.log(error));
   }
 
   function handleRemoveAd(id) {
