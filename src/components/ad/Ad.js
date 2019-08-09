@@ -9,10 +9,11 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import AdService from '../../providers/ad-service'
+import AdService from '../../providers/ad-service';
+import AdminService from '../../providers/admin-service';
 import Button from '@material-ui/core/Button';
 import Promote from './Promote';
-
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -70,28 +71,39 @@ const useStyles = makeStyles(theme => ({
   relatedAd: {
     margin: theme.spacing(4, 0),
   },
+  titleShowCase: {
+    marginBottom: theme.spacing(2),
+  }
 }));
 
-const relatedAd = [0, 1, 2, 3];
 
 export default function Ad(props) {
   const service = new AdService();
+  const adminService = new AdminService();
   const classes = useStyles();
   const { id } = props.match.params;
   const [adData, setAd] = useState({});
   const [adCategory, setAdCategory] = useState('');
+  const [adShopCase, setAdShopCase] = useState([]);
   const [showPromote, setShowPromote] = useState(false);
-  const [showOptionPromote, setShowOptionPromote] = useState(false)
+  const [showOptionPromote, setShowOptionPromote] = useState(false);
 
   function getAd() {
     service.internAd(id)
       .then(res => {
         setAd(res.ad);
         setAdCategory(res.categoryName);
-        console.log(res);
+        adminService.showCaseOnDisplay(res.shopWindow[0]._id)
+          .then(resShopcase => {
+            setAdShopCase(resShopcase.ad)
+          })
+          .catch(err => console.log(err));
       })
       .catch(error => console.log(error));
   }
+  
+  console.log(adShopCase);
+
 
   function checkIfOwner() {
     service.checkIfOwner(id)
@@ -106,7 +118,6 @@ export default function Ad(props) {
     event.preventDefault();
     service.makeReservation(id)
       .then(res => {
-        console.log(res);
         getAd();
       })
       .catch(error => console.log(error));
@@ -131,27 +142,26 @@ export default function Ad(props) {
 
   function showcaseList(list) {
     return (
-
       list && <Grid container spacing={4}>
-        {list.map(card => (
+        {list.slice(0,4).map(card => (
           <Grid item key={card} xs={12} sm={6} md={3}>
             <Card className={classes.card}>
               <CardMedia
                 className={classes.cardMedia}
-                image="https://source.unsplash.com/random"
+                image={card.imagePath}
                 title="Image title"
               />
               <CardContent className={classes.cardContent}>
+                <Typography className={classes.titleShowCase}>
+                  <strong>{card.title}</strong>
+                </Typography>
                 <Typography>
-                  This is a media card. You can use this.
+                  {formatMoney(card.price)}
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" color="primary">
+                <Button component={ Link } to={`/anuncio/${card._id}`} size="small" color="primary">
                   Ver mais
-                </Button>
-                <Button size="small" color="primary">
-                  Reservar
                 </Button>
               </CardActions>
             </Card>
@@ -247,7 +257,7 @@ export default function Ad(props) {
         <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
           Produtos similares
         </Typography>
-        {showcaseList(relatedAd)}
+        {showcaseList(adShopCase)}
       </div>
     </Container>
     </>
