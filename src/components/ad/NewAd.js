@@ -75,12 +75,13 @@ export default function NewAdd(props) {
     price: '',
     state: '',
     city: '',
-    // status: '',
+    category: '',
+    contact: '',
   });
   const [successModal, setSuccessModal] = useState({
       display: false,
       title: 'Sucesso!',
-      message: 'Mensagem padrão.',
+      message: 'Seu anúncio foi salvo, e será analisado pela nossa equipe',
       buttonOne: {
         text: 'Adicionar novo',
         callback: redirectNewAd,
@@ -90,6 +91,8 @@ export default function NewAdd(props) {
   const [listState, setListState] = useState([]);
 
   const [listCity, setListCity] = useState([]);
+
+  const [listCategory, setListCategory] = useState([]);
 
   const [iconRandom] = useState(generateIconRandom());
 
@@ -105,12 +108,15 @@ export default function NewAdd(props) {
     const price = values.price;
     const state = values.state;
     const city = values.city;
+    const category = values.category;
+    const contact = values.contact;
 
     const data = new FormData() 
     data.append('photo', values.imageFile)
 
-    service.addAd(title, description, price, state, city, imageFile)
+    service.addAd(title, description, price, state, city, imageFile, category, contact)
     .then(res => {
+      console.log(res)
       setSuccessModal({
         ...successModal,
         display: true,
@@ -148,7 +154,18 @@ export default function NewAdd(props) {
       .catch(error => console.log(error));
   }
 
+  function getListCategory() {
+    service.getCategory()
+      .then(res => {
+        setListCategory(res);
+        console.log(res)
+      })
+      .catch(error => console.log(error));
+  }
+
   useEffect(getListState, []);
+
+  useEffect(getListCategory, []);
 
   function getListCity() {
     if (!values.state) return;
@@ -161,6 +178,9 @@ export default function NewAdd(props) {
   }
 
   useEffect(getListCity, [values.state]);
+
+
+  console.log(values);
 
   return (
     <Container component="main" maxWidth="md">
@@ -317,7 +337,45 @@ export default function NewAdd(props) {
                 </TextField>
               }
             </Grid>
-
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="categories"
+                select
+                label="Selecione uma categoria"
+                className={classes.textField}
+                value={values.category}
+                onChange={handleChange('category')}
+                margin="normal"
+                // required
+                variant="outlined"
+                fullWidth
+                SelectProps={{
+                  native: true
+                }}
+              >
+                <option />
+                {listCategory.map(option => (
+                  <option key={option.category} value={option._id}>
+                    {option.category}
+                  </option>
+                ))}
+              </TextField>
+            </Grid>
+              <Grid item xs={12} sm={6}>
+              <TextField
+                id="contact"
+                label="Dado de contato"
+                variant="outlined"
+                onChange={handleChange('contact')}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                className={classes.textField}
+                fullWidth
+                margin="normal"
+                required
+              />
+            </Grid>
             <Grid item xs={12}>
               <Fab
                 type="submit"

@@ -97,6 +97,7 @@ export default function Ad(props) {
       .catch(error => console.log(error));
   }
 
+
   function makeReservation(event) {
     event.preventDefault();
     service.makeReservation(id)
