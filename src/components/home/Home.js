@@ -213,7 +213,7 @@ export default function Home() {
 
   function showCaseCard(list) {
     return (
-      <Grid container spacing={4}>
+      list && <Grid container spacing={4}>
         {list.slice(0,4).map(card => (
           <Grid item key={card} xs={12} sm={3} md={3}>
             <Box boxShadow={2} className={classes.card}>
