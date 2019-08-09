@@ -142,7 +142,8 @@ export default function Ad(props) {
 
   function showcaseList(list) {
     return (
-      <Grid container spacing={4}>
+
+      list && <Grid container spacing={4}>
         {list.map(card => (
           <Grid item key={card} xs={12} sm={6} md={3}>
             <Card className={classes.card}>
