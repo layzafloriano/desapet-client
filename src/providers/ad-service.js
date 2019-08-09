@@ -9,7 +9,7 @@ class AdService {
     this.service = service;
   }
 
-  addAd = (title, description, price, state, city, file, category) => {
+  addAd = (title, description, price, state, city, file, category, contact) => {
     const formData = new FormData();
     formData.append('photo', file);
     formData.set('originalname', file.name);
@@ -19,6 +19,7 @@ class AdService {
     formData.set('city', city);
     formData.set('price', price);
     formData.set('category', category);
+    formData.set('contact', contact);
     
     const config = {
       headers: {

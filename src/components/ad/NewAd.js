@@ -76,7 +76,7 @@ export default function NewAdd(props) {
     state: '',
     city: '',
     category: '',
-    // status: '',
+    contact: '',
   });
   const [successModal, setSuccessModal] = useState({
       display: false,
@@ -109,11 +109,12 @@ export default function NewAdd(props) {
     const state = values.state;
     const city = values.city;
     const category = values.category;
+    const contact = values.contact;
 
     const data = new FormData() 
     data.append('photo', values.imageFile)
 
-    service.addAd(title, description, price, state, city, imageFile, category)
+    service.addAd(title, description, price, state, city, imageFile, category, contact)
     .then(res => {
       console.log(res)
       setSuccessModal({
@@ -359,6 +360,21 @@ export default function NewAdd(props) {
                   </option>
                 ))}
               </TextField>
+            </Grid>
+              <Grid item xs={12} sm={6}>
+              <TextField
+                id="contact"
+                label="Dado de contato"
+                variant="outlined"
+                onChange={handleChange('contact')}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                className={classes.textField}
+                fullWidth
+                margin="normal"
+                required
+              />
             </Grid>
             <Grid item xs={12}>
               <Fab

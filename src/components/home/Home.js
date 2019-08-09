@@ -147,7 +147,9 @@ const useStyles = makeStyles(theme => ({
 export default function Home() {
   const classes = useStyles();
   const service = new AdminService()
-  const [showCaseList, setshowCaseList] = useState([]);
+  const [showCaseListDog, setshowCaseListDog] = useState([]);
+  const [showCaseListCat, setshowCaseListCat] = useState([]);
+  const [showCaseListOther, setshowCaseListOther] = useState([]);
 
   const cards = [0, 1, 2, 3];
   const testText = 'Phasellus eu commodo diam. Curabitur dui sapien, consectetur id diam eu, maximus posuere ante. Donec malesuada vel tellus non tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.';
@@ -156,52 +158,83 @@ export default function Home() {
     return text.length > 120 ? `${text.substr(0, 110)}...` : text;
   }
 
-  function getShowCases() {
-    service.getShowCases()
-      .then(res => {
-        setshowCaseList(res.active);
-        res.active.map(ad => {
-          return (service.showCaseOnDisplay(ad._id)
-          .then(res => {
-            console.log(res)
-            setshowCaseList([...showCaseList, res]);
-          })
-          .catch(error => console.log(error)))
-        })
+  // function getShowCases() {
+  //   service.getShowCases()
+  //     .then(res => {
+  //       setshowCaseList(res.active);
+  //       res.active.map(ad => {
+  //         return (service.showCaseOnDisplay(ad._id)
+  //         .then(res => {
+  //           console.log(res)
+  //           setshowCaseList([...showCaseList, res]);
+  //         })
+  //         .catch(error => console.log(error)))
+  //       })
         
-      })
-      .catch(error => console.log(error));
+  //     })
+  //     .catch(error => console.log(error));
+  // }
+
+    function getDogs() {
+      service.showCaseOnDisplay('5d4c73af0581b333aecccb13')
+          .then(res => {
+            console.log(res.ad)
+            setshowCaseListDog(res.ad);
+          })
+          .catch(error => console.log(error))
+    }  
+
+    function getCats() {
+      service.showCaseOnDisplay('5d4c74080581b333aecccb14')
+          .then(res => {
+            console.log(res.ad)
+            setshowCaseListCat(res.ad);
+          })
+          .catch(error => console.log(error))
+    } 
+
+    // function getOthers() {
+    //   service.showCaseOnDisplay('5d4c74080581b333aecccb14')
+    //       .then(res => {
+    //         console.log(res.ad)
+    //         setshowCaseListOther(res.ad);
+    //       })
+    //       .catch(error => console.log(error))
+    // } 
+
+
+  useEffect(getDogs, []);
+  useEffect(getCats, []);
+  // useEffect(getOthers, []);
+
+  function formatMoney(money) {
+    return money ? money.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
   }
-  
-
-  useEffect(getShowCases, []);
-
-  
 
   function showCaseCard(list) {
     return (
       <Grid container spacing={4}>
-        {list.map(card => (
+        {list.slice(0,4).map(card => (
           <Grid item key={card} xs={12} sm={3} md={3}>
             <Box boxShadow={2} className={classes.card}>
               <div className={classes.cardFront}>
                 <div className={classes.cardShadow}></div>
                 <CardMedia
                   className={classes.cardMedia}
-                  image="http://res.cloudinary.com/layzafloriano/image/upload/v1565125034/project-management-gallery/adidog.jpg.jpg"
+                  image={card.imagePath}
                   title="Image title"
                 />
                 <div className={classes.cardImageOverlay}></div>
                 <Link
                   className={classes.cardViewDetails}
-                  to={"/anuncio/5d49e9ac62f3fe255dc8c97b"}>
+                  to={`/anuncio/${card._id}`}>
                   Ver anúncio
                 </Link>
                 <div className={classes.statsContainer}>
-                  <div className={classes.cardTitle}>Título do anúncio</div>
-                  <div className={classes.cardPrice}>R$ 25,00</div>
+                  <div className={classes.cardTitle}>{card.title}</div>
+                  <div className={classes.cardPrice}>{formatMoney(card.price)}</div>
                   <div className={classes.cardText}>
-                    {limitText(testText)}
+                    {limitText(card.description)}
                   </div>
                 </div>
               </div>
@@ -251,14 +284,14 @@ export default function Home() {
             */}
         
            <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
-             Gatos
+             Cachorros
            </Typography>
-           {showCaseCard(cards)}
+           {showCaseCard(showCaseListDog)}
 
            <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
              Outros
            </Typography>
-           {showCaseCard(cards)}
+           {showCaseCard(showCaseListCat)}
         </Container>
       </main>
     </>
