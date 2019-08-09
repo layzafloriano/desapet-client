@@ -81,7 +81,7 @@ export default function NewAdd(props) {
   const [successModal, setSuccessModal] = useState({
       display: false,
       title: 'Sucesso!',
-      message: 'Mensagem padrão.',
+      message: 'Seu anúncio foi salvo, e será analisado pela nossa equipe',
       buttonOne: {
         text: 'Adicionar novo',
         callback: redirectNewAd,

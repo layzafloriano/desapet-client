@@ -52,7 +52,6 @@ export default function AdminModeration() {
   function getListModeration() {
     service.getModeration()
       .then(res => {
-        console.log(res.ad)
         setModerationList(res.ad);
       })
       .catch(error => console.log(error));
