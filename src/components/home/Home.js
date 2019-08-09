@@ -157,7 +157,7 @@ export default function Home() {
   }
 
     function getDogs() {
-      service.showCaseOnDisplay('5d4d7b86a13f4e601d956b63')
+      service.showCaseOnDisplay('5d4d88f11b752461d48c49e5')
           .then(res => {
             console.log(res.ad)
             setshowCaseListDog(res.ad);
@@ -257,9 +257,14 @@ export default function Home() {
            {showCaseCard(showCaseListDog)}
 
            <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
-             Outros
+             Gatos
            </Typography>
            {showCaseCard(showCaseListCat)}
+
+           <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
+             Outros
+           </Typography>
+           {showCaseCard(showCaseListOther)}
         </Container>
       </main>
     </>
