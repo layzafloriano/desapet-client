@@ -12,6 +12,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import AdService from '../../providers/ad-service'
 import Button from '@material-ui/core/Button';
 import Promote from './Promote';
+import Success from '../success/Success';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -80,6 +81,20 @@ export default function Ad(props) {
   const [ad, setAd] = useState({});
   const [showPromote, setShowPromote] = useState(false);
   const [showOptionPromote, setShowOptionPromote] = useState(false)
+
+  const [successModal, setSuccessModal] = useState({
+    display: false,
+    title: 'Sucesso!',
+    message: 'Seu anúncio foi promovido.',
+    buttonOne: {
+      text: 'Ir para página inicial',
+      callback: redirectHome,
+    },
+});
+
+  function redirectHome() {
+    window.location.href = '/';
+  }
 
   function getAd() {
     service.internAd(id)
@@ -192,6 +207,9 @@ export default function Ad(props) {
                 <Typography variant="body2" component="p">
                   {ad.description}
                 </Typography>
+                <Typography className={classes.price} variant="h6" gutterBottom>
+                  Contato com o vendedor: <span className={classes.alert}>{ad.contact}</span>
+                </Typography>
 
                 {ad.status === 'Reserved' && <Fab
                     type="submit"
@@ -241,6 +259,13 @@ export default function Ad(props) {
         </Typography>
         {showcaseList(relatedAd)}
       </div>
+      <Success
+        display={successModal.display}
+        title={successModal.title}
+        message={successModal.message}
+        buttonOne={successModal.buttonOne}
+        buttonTwo={successModal.buttonTwo}>
+      </Success>
     </Container>
     </>
   )

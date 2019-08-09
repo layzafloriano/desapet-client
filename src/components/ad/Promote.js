@@ -41,14 +41,17 @@ export default function Promote(props) {
   if (paidFor) {
     return (
       <div>
-        <h1>Congrats, you just bought {props.name}!</h1>
+        <h1>Parabéns! Seu anúncio foi promovido</h1>
       </div>
     );
   }
 
   return (
     <div>
-      {error && <div>Anúncio promovido! {error.message}</div>}
+      {error && <div>
+        <h1>Parabéns! Seu anúncio foi promovido</h1>
+        </div>
+      }
       <h1>
         Promova o anúncio {props.title} por {formatMoney(props.price * 0.1)}
       </h1>
