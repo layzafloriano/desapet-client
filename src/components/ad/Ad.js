@@ -12,7 +12,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import AdService from '../../providers/ad-service'
 import Button from '@material-ui/core/Button';
 import Promote from './Promote';
-import Success from '../success/Success';
+
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -82,11 +82,6 @@ export default function Ad(props) {
   const [adCategory, setAdCategory] = useState('');
   const [showPromote, setShowPromote] = useState(false);
   const [showOptionPromote, setShowOptionPromote] = useState(false)
-
-
-  function redirectHome() {
-    window.location.href = '/';
-  }
 
   function getAd() {
     service.internAd(id)

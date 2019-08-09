@@ -27,7 +27,8 @@ class AdService {
       }
     };
     return this.service.post('/add-ad', formData, config)
-    .then(response => response.data);
+    .then(response => response.data)
+    .catch(err => Promise.reject(err.response.data));
   }
 
   getListState = () => {
