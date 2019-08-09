@@ -168,11 +168,11 @@ export default function Navbar(props) {
           link: '/meus-anuncios',
           icon: (<PetsIcon />),
         },
-        {
-          text: 'Minhas reservas',
-          link: '/minhas-reservas',
-          icon: (<PetsIcon />),
-        },
+        // {
+        //   text: 'Minhas reservas',
+        //   link: '/minhas-reservas',
+        //   icon: (<PetsIcon />),
+        // },
         {
           text: 'Sair',
           onClick: logoutUser,

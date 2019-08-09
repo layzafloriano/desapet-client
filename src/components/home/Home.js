@@ -156,23 +156,6 @@ export default function Home() {
     return text.length > 120 ? `${text.substr(0, 110)}...` : text;
   }
 
-  // function getShowCases() {
-  //   service.getShowCases()
-  //     .then(res => {
-  //       setshowCaseList(res.active);
-  //       res.active.map(ad => {
-  //         return (service.showCaseOnDisplay(ad._id)
-  //         .then(res => {
-  //           console.log(res)
-  //           setshowCaseList([...showCaseList, res]);
-  //         })
-  //         .catch(error => console.log(error)))
-  //       })
-        
-  //     })
-  //     .catch(error => console.log(error));
-  // }
-
     function getDogs() {
       service.showCaseOnDisplay('5d4c73af0581b333aecccb13')
           .then(res => {
