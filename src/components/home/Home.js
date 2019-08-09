@@ -157,7 +157,7 @@ export default function Home() {
   }
 
     function getDogs() {
-      service.showCaseOnDisplay('5d4c73af0581b333aecccb13')
+      service.showCaseOnDisplay('5d4d7b86a13f4e601d956b63')
           .then(res => {
             console.log(res.ad)
             setshowCaseListDog(res.ad);
@@ -166,7 +166,7 @@ export default function Home() {
     }  
 
     function getCats() {
-      service.showCaseOnDisplay('5d4c74080581b333aecccb14')
+      service.showCaseOnDisplay('5d4d89251b752461d48c49e9')
           .then(res => {
             console.log(res.ad)
             setshowCaseListCat(res.ad);
@@ -174,19 +174,19 @@ export default function Home() {
           .catch(error => console.log(error))
     } 
 
-    // function getOthers() {
-    //   service.showCaseOnDisplay('5d4c74080581b333aecccb14')
-    //       .then(res => {
-    //         console.log(res.ad)
-    //         setshowCaseListOther(res.ad);
-    //       })
-    //       .catch(error => console.log(error))
-    // } 
+    function getOthers() {
+      service.showCaseOnDisplay('5d4d89381b752461d48c49ea')
+          .then(res => {
+            console.log(res.ad)
+            setshowCaseListOther(res.ad);
+          })
+          .catch(error => console.log(error))
+    } 
 
 
   useEffect(getDogs, []);
   useEffect(getCats, []);
-  // useEffect(getOthers, []);
+  useEffect(getOthers, []);
 
   function formatMoney(money) {
     return money ? money.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
