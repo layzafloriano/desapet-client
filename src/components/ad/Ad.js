@@ -12,7 +12,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import AdService from '../../providers/ad-service'
 import Button from '@material-ui/core/Button';
 import Promote from './Promote';
-import Success from '../success/Success';
+
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -78,28 +78,17 @@ export default function Ad(props) {
   const service = new AdService();
   const classes = useStyles();
   const { id } = props.match.params;
-  const [ad, setAd] = useState({});
+  const [adData, setAd] = useState({});
+  const [adCategory, setAdCategory] = useState('');
   const [showPromote, setShowPromote] = useState(false);
   const [showOptionPromote, setShowOptionPromote] = useState(false)
-
-  const [successModal, setSuccessModal] = useState({
-    display: false,
-    title: 'Sucesso!',
-    message: 'Seu anúncio foi promovido.',
-    buttonOne: {
-      text: 'Ir para página inicial',
-      callback: redirectHome,
-    },
-});
-
-  function redirectHome() {
-    window.location.href = '/';
-  }
 
   function getAd() {
     service.internAd(id)
       .then(res => {
-        setAd(res);
+        setAd(res.ad);
+        setAdCategory(res.categoryName);
+        console.log(res);
       })
       .catch(error => console.log(error));
   }
@@ -181,7 +170,7 @@ export default function Ad(props) {
           <Grid className={classes.containerPicture} item key="details" xs={12} sm={6} md={6}>
             <Card className={classes.card}>
               <picture>
-                {ad.imagePath && <img className={classes.imageAd} src={ad.imagePath} alt="Imagem do produto"></img>}
+                {adData.imagePath && <img className={classes.imageAd} src={adData.imagePath} alt="Imagem do produto"></img>}
               </picture>
             </Card>
           </Grid>
@@ -189,30 +178,30 @@ export default function Ad(props) {
             <Card className={classes.contentCard}>
               <div>
                 {
-                  ad.status==='Pending Confirmation' && <Typography className={ classes.alert } variant="subtitle2" gutterBottom>
+                  adData.status==='Pending Confirmation' && <Typography className={ classes.alert } variant="subtitle2" gutterBottom>
                   Este pedido está pendente de aprovação. Qualquer dúvida entre em contato com o nosso suporte.
                 </Typography>
                 }
                 <Typography variant="subtitle2" color="textSecondary" gutterBottom>
-                  Categoria: <strong>{ad.category}</strong>
+                  Categoria: <strong>{adCategory}</strong>
                 </Typography>
                 <Typography variant="h4" className={classes.title} gutterBottom>
-                  {ad.title}
+                  {adData.title}
                 </Typography>
                 <Typography className={classes.price} variant="h5" gutterBottom>
-                  Valor: <span className={classes.title}>{formatMoney(ad.price)}</span>
+                  Valor: <span className={classes.title}>{formatMoney(adData.price)}</span>
                 </Typography>
                 <Typography variant="subtitle2" gutterBottom>
                   <strong>Detalhes do produto:</strong>
                 </Typography>
                 <Typography variant="body2" component="p">
-                  {ad.description}
+                  {adData.description}
                 </Typography>
                 <Typography className={classes.price} variant="h6" gutterBottom>
-                  Contato com o vendedor: <span className={classes.alert}>{ad.contact}</span>
+                  Contato com o vendedor: <span className={classes.alert}>{adData.contact}</span>
                 </Typography>
 
-                {ad.status === 'Reserved' && <Fab
+                {adData.status === 'Reserved' && <Fab
                     type="submit"
                     size="large"
                     variant="extended"
@@ -224,7 +213,7 @@ export default function Ad(props) {
                     Produto Reservado
                   </Fab>}
 
-                {ad.status !== 'Reserved' && <Fab
+                {adData.status !== 'Reserved' && <Fab
                     type="submit"
                     size="large"
                     variant="extended"
@@ -253,20 +242,13 @@ export default function Ad(props) {
 
       <div className={classes.relatedAd}>
         {
-          showPromote && <Promote { ...ad }/>
+          showPromote && <Promote { ...adData }/>
         }
         <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
           Produtos similares
         </Typography>
         {showcaseList(relatedAd)}
       </div>
-      <Success
-        display={successModal.display}
-        title={successModal.title}
-        message={successModal.message}
-        buttonOne={successModal.buttonOne}
-        buttonTwo={successModal.buttonTwo}>
-      </Success>
     </Container>
     </>
   )

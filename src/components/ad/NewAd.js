@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import NumberFormat from 'react-number-format';
 import Success from '../success/Success';
+import Error from '../error/Error';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -88,6 +89,11 @@ export default function NewAdd(props) {
       },
   });
 
+  const [error, setError] = useState({
+    hasError: false,
+    message: '',
+  });
+
   const [listState, setListState] = useState([]);
 
   const [listCity, setListCity] = useState([]);
@@ -126,7 +132,11 @@ export default function NewAdd(props) {
         },
       });
     })
-    .catch( error => console.log(error) )
+    .catch( err => setError({ ...error, hasError: true, message: err.message }))
+  }
+
+  function closeError() {
+    setError({ ...error, hasError: false, message: '' });
   }
 
   function redirectNewAd() {
@@ -249,20 +259,6 @@ export default function NewAdd(props) {
                 margin="normal"
                 required
               />
-              {/* <TextField
-                id="price"
-                label="Valor do produto - R$"
-                variant="outlined"
-                fullWidth
-                onChange={handleChange('price')}
-                type="number"
-                className={classes.textField}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                margin="normal"
-                required
-              /> */}
             </Grid>
 
             <Grid item xs={12} sm={6}>
@@ -376,6 +372,14 @@ export default function NewAdd(props) {
                 required
               />
             </Grid>
+
+            {error.hasError && 
+            <Error
+              message={error.message}
+              onClose={closeError}>
+            </Error>
+            }
+
             <Grid item xs={12}>
               <Fab
                 type="submit"
