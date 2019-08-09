@@ -151,8 +151,6 @@ export default function Home() {
   const [showCaseListCat, setshowCaseListCat] = useState([]);
   const [showCaseListOther, setshowCaseListOther] = useState([]);
 
-  const cards = [0, 1, 2, 3];
-  const testText = 'Phasellus eu commodo diam. Curabitur dui sapien, consectetur id diam eu, maximus posuere ante. Donec malesuada vel tellus non tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus.';
   
   function limitText(text) {
     return text.length > 120 ? `${text.substr(0, 110)}...` : text;
@@ -269,20 +267,7 @@ export default function Home() {
           </Container>
         </div>
 
-        <Container className={classes.cardGrid} maxWidth="xl">
-          
-
-          {/* {showCaseList.map((showcase, index) => {
-          //   return (<Typography className={classes.showcaseTitle} key={index} component="h1" variant="h5" align="left" gutterBottom>
-          //   {showcase.name}
-          //  </Typography>)
-        //  {showcaseCard(cards)}
-        return (<Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
-          Gatos
-        </Typography>)
-          })}
-            */}
-        
+        <Container className={classes.cardGrid} maxWidth="xl">  
            <Typography className={classes.showcaseTitle} component="h1" variant="h5" align="left" gutterBottom>
              Cachorros
            </Typography>
